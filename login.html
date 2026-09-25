@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Login · NAELGHUB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="style.css" />
+<style>#naelSkipIntro{position:absolute;right:18px;bottom:18px;z-index:20;padding:11px 18px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-weight:900;backdrop-filter:blur(10px);animation:naelSkipPulse 1.5s ease-in-out infinite;touch-action:manipulation}#naelSkipIntro:active{transform:scale(.96)}#naelSoundIntro{position:absolute;left:18px;bottom:18px;z-index:20;padding:11px 18px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(255,23,68,.72);color:#fff;font-weight:900;backdrop-filter:blur(10px);display:none;touch-action:manipulation}@keyframes naelSkipPulse{50%{box-shadow:0 0 0 7px rgba(255,23,68,.10),0 0 22px rgba(255,23,68,.35);opacity:.88}}</style></head>
+<body>
+<!-- VIDEO SPLASH: diputar setelah halaman siap, lalu masuk ke landing page -->
+<div id="naelVideoSplash" aria-label="NAELGHUB loading">
+  <video id="naelIntroVideo" autoplay muted playsinline preload="auto">
+    <source src="tiktokio.com1789904488_quPNz2ugt0suf7KUcFIS.mp4" type="video/mp4">
+  </video>
+  <audio id="naelIntroAudio" src="intro-apk-native.mp3" preload="auto"></audio>
+  <div class="nael-splash-title">NAELGHUB</div>
+  <button id="naelSoundIntro" type="button">🔊 AKTIFKAN SUARA</button><button id="naelSkipIntro" type="button">SKIP INTRO ⏭</button>
+</div>
+
+<div id="landingPage">
+  <video id="landing-bg-video" autoplay muted loop playsinline preload="auto">
+    <source src="tiktokio.com1789904488_quPNz2ugt0suf7KUcFIS.mp4" type="video/mp4" />
+  </video>
+  <div class="landing-bg-overlay"></div>
+  <div class="stars"></div>
+
+  <div class="top-row">
+    <div class="top-pill">TERMUX</div>
+    <div class="top-actions"><div class="top-pill">VPS</div><div class="top-pill">UBOT</div></div>
+  </div>
+
+  <div class="landing-body">
+    <div class="syam-logo-wrap">
+      <img src="spiderman.jpg" alt="Logo" class="syam-logo-img" onerror="this.onerror=null;this.src='spiderman2.jpg';" />
+    </div>
+    <div class="syam-subtitle">NAELGHUB · BUG WA</div>
+    <button class="syam-btn syam-btn-primary" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> MASUK</button>
+    <button class="syam-btn" onclick="beliAkses()"><i class="fas fa-shopping-bag"></i> BELI AKSES</button>
+    <button class="syam-btn" onclick="hubungiSupport()"><i class="fas fa-headset"></i> HUBUNGI SUPPORT</button>
+    <div class="support-box">
+      <div class="support-social-row">
+        <a class="support-social" href="https://t.me/" target="_blank"><div class="circle"><i class="fab fa-telegram-plane"></i></div><span>Telegram</span></a>
+        <a class="support-social" href="https://tiktok.com/@tiktok.tanzz" target="_blank"><div class="circle"><i class="fab fa-tiktok"></i></div><span>TikTok</span></a>
+      </div>
+      <div class="support-copyright">© 2026 NAELGHUB</div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal">
+  <div class="login-modal-card">
+    <button class="login-modal-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+    <div class="login-modal-logo"><i class="fas fa-spider"></i></div>
+    <div class="login-modal-title">MASUK</div>
+    <div class="login-modal-sub">Ahlan wa sahlan, hero.</div>
+    <div class="login-input-wrap"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="Username" autocomplete="username" /></div>
+    <div class="login-input-wrap"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" /></div>
+    <div class="role-picker-label">Pilih Role Kamu</div>
+    <div class="role-picker" id="rolePicker">
+      <div class="role-chip active" data-role="member" onclick="pickRole('member',event)"><i class="fas fa-user"></i><span>MEMBER</span></div>
+      <div class="role-chip" data-role="vip" onclick="pickRole('vip',event)"><i class="fas fa-crown"></i><span>VIP</span></div>
+      <div class="role-chip" data-role="reseller" onclick="pickRole('reseller',event)"><i class="fas fa-handshake"></i><span>RESELLER</span></div>
+      <div class="role-chip" data-role="owner" onclick="pickRole('owner',event)"><i class="fas fa-star"></i><span>OWNER</span></div>
+      <div class="role-chip" data-role="developer" onclick="pickRole('developer',event)"><i class="fas fa-code"></i><span>DEV</span></div>
+      <div class="role-chip" onclick="forgotPassword()"><i class="fas fa-question"></i><span>LUPA?</span></div>
+    </div>
+    <button class="login-submit-btn" onclick="doLogin()"><i class="fas fa-rocket"></i> MASUK SEKARANG</button>
+    <div class="login-hint">Belum punya akun? <a onclick="daftarMember()">Daftar Member</a> · <a onclick="ownerInfo()">Owner Permanent</a></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+/* ============================================================
+   LOGIN LOGIC
+   ============================================================ */
+let pickedRole = 'member';
+
+function openLoginModal(){ document.getElementById('loginModal').classList.add('active'); }
+function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); }
+
+function pickRole(role, ev){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  pickedRole = role;
+  document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
+  const el = document.querySelector(`.role-chip[data-role="${role}"]`);
+  if(el) el.classList.add('active');
+  showToast(`✅ Role: ${role.toUpperCase()}`);
+}
+
+function beliAkses(){
+  if(confirm('🛒 Beli Akses VIP\n\nVIP: Rp 25.000/bulan\nReseller: Rp 100.000\n\nLanjut ke WhatsApp?'))
+    window.open('https://wa.me/6285235848455?text=Mau%20beli%20akses%20NAELGHUB','_blank');
+}
+function hubungiSupport(){ window.open('https://wa.me/6285235848455?text=Butuh%20bantuan%20NAELGHUB','_blank'); }
+function forgotPassword(){ showToast('🔑 Hubungi admin: +62 852-3584-8455'); }
+function daftarMember(){ pickedRole='member'; document.querySelectorAll('.role-chip').forEach(c=>c.classList.remove('active')); document.querySelector('.role-chip[data-role="member"]')?.classList.add('active'); showToast('📝 Daftar Member: isi username + password lalu klik MASUK.'); }
+function ownerInfo(){ showToast('🌸 Owner Permanent tidak dibuat lewat auto-register. Buat dari Member Panel menggunakan akun OWNER/DEVELOPER.'); }
+
+function doLogin(){
+  const u = document.getElementById('loginUsername').value.trim();
+  const p = document.getElementById('loginPassword').value.trim();
+  if(!u || !p){ showToast('⚠️ Isi username & password!'); return; }
+  ensureDefaultAccounts();
+
+  // Cek user tersimpan terlebih dahulu agar perubahan username/password mengambil prioritas.
+  const users = getUsers();
+  const disabledDefaults = (()=>{ try{return JSON.parse(localStorage.getItem('naelghub_disabled_defaults')||'[]');}catch{return[];} })();
+  if(users[u]){
+    if(users[u].password !== p){ showToast('❌ Password salah!'); return; }
+    saveAndRedirect(u, users[u].role || 'member', users[u].expiry || '2026-12-31');
+    return;
+  }
+  // Cek default accounts (hanya jika belum diubah/dinonaktifkan).
+  if(ACCOUNTS[u] && !disabledDefaults.includes(u) && ACCOUNTS[u].pw === p){
+    saveAndRedirect(u, ACCOUNTS[u].role, DEFAULT_ACCOUNTS[u].expiry);
+    return;
+  }
+  // Auto-register member baru
+  if(pickedRole === 'member'){
+    const exp = new Date(); exp.setDate(exp.getDate() + 7);
+    users[u] = { password: p, role: 'member', expiry: exp.toISOString().split('T')[0] };
+    saveUsers(users);
+    showToast('✅ Akun Member dibuat!');
+    saveAndRedirect(u, 'member', users[u].expiry);
+    return;
+  }
+  if(pickedRole === 'owner'){ showToast('🌸 Owner Permanent harus dibuat oleh OWNER/DEVELOPER dari Member Panel.'); return; }
+  showToast(`❌ Akun ${pickedRole.toUpperCase()} belum terdaftar.`);
+}
+
+function saveAndRedirect(username, role, expiry){
+  setSession({ username, role, expiry: Date.now() + 86400000, userExpiry: expiry });
+  showToast('🎉 Login berhasil! Redirect...');
+  setTimeout(() => {
+    window.location.href = 'intro.html';
+  }, 800);
+}
+
+// AUTO-REDIRECT jika sudah login
+(function(){
+  const s = getSession();
+  if(s && s.expiry > Date.now()){
+    window.location.href = 'intro.html';
+  }
+})();
+
+// Video intro: selesai -> landing page. Jika autoplay dibatasi, tetap lanjut otomatis.
+(function initNaelIntro(){
+  const splash=document.getElementById('naelVideoSplash');
+  const video=document.getElementById('naelIntroVideo');
+  const audio=document.getElementById('naelIntroAudio');
+  const skip=document.getElementById('naelSkipIntro');
+  const sound=document.getElementById('naelSoundIntro');
+  if(!splash||!video)return;
+  let done=false;
+  const finish=()=>{if(done)return;done=true;try{video.pause();if(audio){audio.pause();audio.currentTime=0}}catch(e){} splash.classList.add('hide');setTimeout(()=>splash.remove(),500)};
+  const tryAudio=()=>{if(!audio)return;audio.play().then(()=>{if(sound)sound.style.display='none'}).catch(()=>{if(sound)sound.style.display='block'})};
+  skip&&skip.addEventListener('click',finish,{passive:true});
+  sound&&sound.addEventListener('click',()=>{tryAudio()});
+  video.addEventListener('ended',finish,{once:true});
+  video.addEventListener('error',finish,{once:true});
+  window.addEventListener('load',()=>{video.play().catch(()=>{});tryAudio()},{once:true});
+  document.addEventListener('pointerdown',tryAudio,{once:true,passive:true});
+})();
+
+console.log('🔥 login.html loaded');
+</script>
+</body>
+</html>

